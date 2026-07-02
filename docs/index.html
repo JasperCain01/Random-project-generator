@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Project Generator</title>
+  <meta name="description" content="Spin up a random data analysis project: a public dataset, a question, and a challenge — powered by R running in your browser via webR.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>🎲 Random Project Generator</h1>
+      <p class="tagline">
+        A public dataset + a question + a challenge, drawn at random.
+        The draw itself runs in R, in your browser, via
+        <a href="https://docs.r-wasm.org/webr/latest/" target="_blank" rel="noopener">webR</a>.
+      </p>
+    </header>
+
+    <section id="themes-section" hidden>
+      <h2>Pick your themes <span class="hint">(none selected = anything goes)</span></h2>
+      <div id="theme-chips" class="chips" role="group" aria-label="Theme filters"></div>
+      <p id="combo-count" class="combo-count"></p>
+    </section>
+
+    <div class="controls">
+      <button id="spin" class="spin-btn" disabled>Loading R…</button>
+      <p id="status" class="status" role="status">Starting webR runtime…</p>
+    </div>
+
+    <section id="result" hidden>
+      <article class="card card-dataset">
+        <h3>📊 Your data</h3>
+        <p class="card-title" id="ds-name"></p>
+        <p id="ds-desc"></p>
+        <pre id="ds-hint"></pre>
+        <p class="card-meta">
+          <a id="ds-url" target="_blank" rel="noopener">Dataset home&nbsp;↗</a>
+          <span id="ds-license"></span>
+          <span id="ds-size"></span>
+        </p>
+      </article>
+      <article class="card card-question">
+        <h3>❓ Your question <span class="family" id="q-family"></span></h3>
+        <p id="q-text"></p>
+      </article>
+      <article class="card card-challenge">
+        <h3>🔥 Your challenge</h3>
+        <p class="card-title" id="ch-name"></p>
+        <p id="ch-desc"></p>
+      </article>
+    </section>
+
+    <footer>
+      <p id="history-line" hidden>
+        <span id="history-count"></span> combinations drawn on this device —
+        you will never be dealt the same project twice.
+        <button id="reset" class="link-btn">Reset history</button>
+      </p>
+      <p>
+        Registry and generator live on
+        <a href="https://github.com/JasperCain01/Random-project-generator" target="_blank" rel="noopener">GitHub</a>.
+        Add a dataset by editing one YAML file.
+      </p>
+    </footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

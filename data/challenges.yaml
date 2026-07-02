@@ -1,0 +1,127 @@
+# Challenge registry
+#
+# Challenges are (almost all) independent of the dataset and question, so any
+# challenge can be paired with any suggestion. Keep each one self-contained.
+#
+# Fields: id, name, description
+
+- id: base-r-only
+  name: No tidyverse
+  description: >
+    Do the whole analysis and all plots in base R — no dplyr, no ggplot2.
+    Rediscover aggregate(), tapply() and friends.
+
+- id: one-pipe
+  name: One pipe to rule them all
+  description: >
+    Express the core data transformation as a single unbroken pipe chain,
+    from raw data to plot-ready table.
+
+- id: interactive
+  name: Make it interactive
+  description: >
+    Deliver the result as an interactive graphic (plotly, ggiraph or
+    leaflet) with tooltips that genuinely add information.
+
+- id: quarto-dashboard
+  name: Ship a dashboard
+  description: >
+    Present the findings as a Quarto dashboard with at least three
+    coordinated panels.
+
+- id: self-contained-chart
+  name: The chart stands alone
+  description: >
+    Produce one chart so thoroughly annotated (title, subtitle, direct
+    labels, source note) that it needs no surrounding text at all.
+
+- id: colorblind-safe
+  name: Colour with care
+  description: >
+    Use only a colourblind-safe palette (viridis or Okabe-Ito) and verify
+    the result with a simulator before calling it done.
+
+- id: second-dataset
+  name: Bring a friend
+  description: >
+    Join in a second dataset from this generator's own index and make the
+    combination essential to the answer.
+
+- id: hundred-lines
+  name: 100 lines, max
+  description: >
+    The entire analysis — import to final figure — in at most 100 lines of
+    R, comments included.
+
+- id: data-table
+  name: Speak data.table
+  description: >
+    Use data.table for every transformation instead of your usual tools,
+    idiomatically (no dplyr translations).
+
+- id: package-it
+  name: Package it
+  description: >
+    Wrap the core logic as functions in a minimal R package with roxygen
+    docs and at least three testthat tests.
+
+- id: small-multiples
+  name: Small multiples, no legends
+  description: >
+    Every comparison must be a faceted small-multiples chart with direct
+    labelling — legends are banned.
+
+- id: publication-style
+  name: Newsroom style
+  description: >
+    Style the final graphic like The Economist, FT or BBC — typography,
+    grid, annotations and all — using a theme you build yourself.
+
+- id: targets-pipeline
+  name: Reproducible pipeline
+  description: >
+    Orchestrate the analysis with the {targets} package so a single
+    tar_make() rebuilds everything from scratch.
+
+- id: no-loops
+  name: No loops
+  description: >
+    No for or while loops anywhere — vectorised operations and purrr/apply
+    functions only.
+
+- id: table-centrepiece
+  name: The table is the chart
+  description: >
+    Make a beautifully formatted table (gt or reactable) the centrepiece
+    deliverable instead of a plot.
+
+- id: webr-publish
+  name: Publish it in webR
+  description: >
+    Publish the analysis so it runs in the reader's browser via webR or
+    shinylive — just like this generator does.
+
+- id: five-minute-story
+  name: Tell it in five slides
+  description: >
+    Condense the whole project into five presentation slides (Quarto revealjs)
+    a non-technical audience could follow.
+
+- id: log-scale-defence
+  name: Defend your axes
+  description: >
+    Somewhere a log scale, index (=100) rebasing, or per-capita adjustment
+    changes the story. Show the naive version and the adjusted one, and argue
+    for your choice.
+
+- id: sensitivity-analysis
+  name: Stress-test it
+  description: >
+    Identify the three most consequential analytical choices you made and
+    show how the headline result moves when each is varied.
+
+- id: art-mode
+  name: Data art
+  description: >
+    Alongside the serious analysis, render the same data as a purely
+    aesthetic generative-art piece.

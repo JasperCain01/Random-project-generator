@@ -1,0 +1,153 @@
+# Question archetype registry
+#
+# Archetypes are templates, not literal questions. At generation time the
+# {dataset} placeholder is filled with the chosen dataset's name.
+#
+# Matching rules against a dataset's shape_tags:
+#   requires_all  dataset must carry every listed tag
+#   requires_any  dataset must carry at least one listed tag
+# (both may be present; both must then be satisfied; an archetype with
+#  neither field matches every dataset)
+#
+# family is a coarse label shown to the player (Trends, Multivariate, etc.)
+
+- id: long-run-trend
+  family: Trends
+  requires_any: [time_series]
+  template: >
+    What is the long-run trend in {dataset}? Decompose it: how much is
+    secular drift, how much is seasonal or cyclical, and how much is noise?
+
+- id: changepoint
+  family: Trends
+  requires_any: [time_series]
+  template: >
+    Find the moment the story changed in {dataset}. Is there a structural
+    break or regime change, and what real-world event coincides with it?
+
+- id: forecast
+  family: Forecasting
+  requires_any: [time_series]
+  template: >
+    Build a forecast from {dataset} for the next few periods. Compare a naive
+    baseline against a proper model — how much does the model actually buy you?
+
+- id: convergence-divergence
+  family: Trends
+  requires_all: [panel, country_level]
+  template: >
+    Are countries in {dataset} converging or diverging over time? Quantify the
+    gap between the top and bottom groups and how it has moved.
+
+- id: pca-structure
+  family: Dimensionality
+  requires_any: [multivariate_numeric]
+  template: >
+    Run a PCA on {dataset}. What do the first two or three components mean in
+    plain language, and which observations sit far from everyone else?
+
+- id: clustering
+  family: Dimensionality
+  requires_any: [multivariate_numeric]
+  template: >
+    Cluster the observations in {dataset}. How many natural groups are there,
+    do they match any existing labels, and what defines each group?
+
+- id: anomaly-hunt
+  family: Anomalies
+  requires_any: [time_series, multivariate_numeric, transactions]
+  template: >
+    Hunt for anomalies in {dataset}. Define "unusual" quantitatively, flag the
+    strangest observations, and investigate whether they are errors or stories.
+
+- id: spatial-pattern
+  family: Spatial
+  requires_any: [geographic]
+  template: >
+    Map {dataset}. Is the spatial pattern clustered, dispersed, or random —
+    and can you back that judgement with a statistic rather than a glance?
+
+- id: choropleth-story
+  family: Spatial
+  requires_any: [geographic]
+  template: >
+    Build a choropleth (or point map) from {dataset} that tells one clear
+    story, then write the three-sentence caption that a newspaper would print.
+
+- id: network-centrality
+  family: Networks
+  requires_any: [network]
+  template: >
+    Treat {dataset} as a network. Who are the most central nodes, does the
+    network have communities, and how has its structure shifted over time?
+
+- id: league-table
+  family: Comparison
+  requires_any: [categorical, country_level]
+  template: >
+    Build a defensible ranking from {dataset}. Who is top, who is bottom, how
+    sensitive is the ordering to your methodological choices?
+
+- id: correlation-vs-causation
+  family: Relationships
+  requires_any: [panel, multivariate_numeric]
+  template: >
+    Pick two variables in {dataset} that correlate strongly. Argue both sides:
+    what would the causal story be, and what confounder could explain it away?
+
+- id: distribution-inequality
+  family: Distributions
+  requires_any: [individual_level, transactions, country_level]
+  template: >
+    Study the full distribution in {dataset}, not just the mean. How skewed or
+    unequal is it (Gini, top-decile share), and is that concentration growing?
+
+- id: simulation-uncertainty
+  family: Simulation
+  template: >
+    Take one headline number you can compute from {dataset} and put honest
+    uncertainty around it using bootstrap or permutation methods. Does the
+    headline survive?
+
+- id: missingness
+  family: Data quality
+  requires_any: [survey, panel, individual_level]
+  template: >
+    Profile the missing data in {dataset}. Is it missing at random? Who or
+    what is systematically absent, and how would that bias a naive analysis?
+
+- id: text-sentiment
+  family: Text
+  requires_any: [text]
+  template: >
+    Track sentiment and emotional language across {dataset} over time. When
+    was the tone darkest, and does it track historical events?
+
+- id: text-topics
+  family: Text
+  requires_any: [text]
+  template: >
+    Fit a topic model to {dataset}. What themes emerge, and how has their
+    prominence risen and fallen across the corpus?
+
+- id: seasonality
+  family: Trends
+  requires_any: [time_series]
+  template: >
+    Isolate the seasonal or weekly rhythm in {dataset}. What repeats, how
+    strong is the cycle, and is the rhythm itself changing?
+
+- id: cohort-comparison
+  family: Comparison
+  requires_any: [categorical, individual_level]
+  template: >
+    Split {dataset} into meaningful cohorts and compare them. Which difference
+    between groups is largest, and does it hold up after controlling for an
+    obvious confounder?
+
+- id: relational-join-insight
+  family: Relationships
+  requires_any: [relational]
+  template: >
+    The interesting answer in {dataset} needs at least two of its tables.
+    Find a question that only a join can answer, and answer it.
