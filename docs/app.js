@@ -34,6 +34,19 @@ function selectedThemes() {
   );
 }
 
+const DIFFICULTIES = [
+  { id: "mild", label: "🌶️ Mild" },
+  { id: "medium", label: "🌶️🌶️ Medium" },
+  { id: "spicy", label: "🌶️🌶️🌶️ Spicy" },
+  { id: "extra-spicy", label: "🌶️🌶️🌶️🌶️ Extra spicy" },
+];
+
+function selectedDifficulties() {
+  return [...document.querySelectorAll("#difficulty-chips input:checked")].map(
+    (el) => el.value
+  );
+}
+
 // Mirror of the R matching rules, used only to show live combination counts.
 function questionMatches(q, ds) {
   const tags = new Set(ds.shape_tags);
@@ -42,9 +55,12 @@ function questionMatches(q, ds) {
   return true;
 }
 
-function comboCount(themes) {
+function comboCount(themes, difficulties) {
   const datasets = registry.datasets.filter(
     (ds) => themes.length === 0 || ds.themes.some((t) => themes.includes(t))
+  );
+  const challenges = registry.challenges.filter(
+    (ch) => difficulties.length === 0 || difficulties.includes(ch.difficulty)
   );
   let pairs = 0;
   for (const ds of datasets) {
@@ -52,11 +68,11 @@ function comboCount(themes) {
       if (questionMatches(q, ds)) pairs++;
     }
   }
-  return { combos: pairs * registry.challenges.length, datasets: datasets.length };
+  return { combos: pairs * challenges.length, datasets: datasets.length };
 }
 
 function updateComboCount() {
-  const { combos, datasets } = comboCount(selectedThemes());
+  const { combos, datasets } = comboCount(selectedThemes(), selectedDifficulties());
   $("combo-count").textContent =
     combos === 0
       ? "No datasets match this selection."
@@ -78,6 +94,19 @@ function buildThemeChips() {
     label.append(input, span);
     box.append(label);
   }
+  const dbox = $("difficulty-chips");
+  for (const d of DIFFICULTIES) {
+    const label = document.createElement("label");
+    label.className = "chip";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.value = d.id;
+    input.addEventListener("change", updateComboCount);
+    const span = document.createElement("span");
+    span.textContent = d.label;
+    label.append(input, span);
+    dbox.append(label);
+  }
   $("themes-section").hidden = false;
   updateComboCount();
 }
@@ -91,6 +120,8 @@ function renderSuggestion(s) {
   $("ds-size").textContent = `Size: ${s.dataset.size}`;
   $("q-family").textContent = s.question.family;
   $("q-text").textContent = s.question.text.trim();
+  const heat = DIFFICULTIES.find((d) => d.id === s.challenge.difficulty);
+  $("ch-difficulty").textContent = heat ? heat.label : s.challenge.difficulty;
   $("ch-name").textContent = s.challenge.name;
   $("ch-desc").textContent = s.challenge.description.trim();
   $("result").hidden = false;
@@ -108,7 +139,7 @@ async function spin() {
   try {
     const code = `rpg_suggest_json(.rpg_registry, ${rCharVec(
       selectedThemes()
-    )}, ${rCharVec(seen)})`;
+    )}, ${rCharVec(seen)}, ${rCharVec(selectedDifficulties())})`;
     const out = await webR.evalRString(code);
     const s = JSON.parse(out);
     if (s.status === "ok") {
@@ -119,10 +150,10 @@ async function spin() {
       setStatus("");
     } else if (s.status === "exhausted") {
       setStatus(
-        "You have drawn every combination for this selection! Widen the themes or reset your history."
+        "You have drawn every combination for this selection! Widen the themes or spice levels, or reset your history."
       );
     } else {
-      setStatus("No datasets match this theme selection — pick different themes.");
+      setStatus("Nothing matches this selection — loosen the theme or spice filters.");
     }
   } catch (err) {
     console.error(err);

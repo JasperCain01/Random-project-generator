@@ -3,125 +3,301 @@
 # Challenges are (almost all) independent of the dataset and question, so any
 # challenge can be paired with any suggestion. Keep each one self-contained.
 #
-# Fields: id, name, description
+# Fields: id, name, difficulty, description
+#   difficulty: mild | medium | spicy | extra-spicy
+#     mild        a constraint, not a mountain — doable in the same sitting
+#     medium      asks for a tool or habit you may not use every day
+#     spicy       a genuine stretch: new ecosystem, real engineering
+#     extra-spicy bragging-rights territory
 
-- id: base-r-only
-  name: No tidyverse
-  description: >
-    Do the whole analysis and all plots in base R — no dplyr, no ggplot2.
-    Rediscover aggregate(), tapply() and friends.
+# ---- mild -------------------------------------------------------------------
 
 - id: one-pipe
   name: One pipe to rule them all
+  difficulty: mild
   description: >
     Express the core data transformation as a single unbroken pipe chain,
     from raw data to plot-ready table.
 
-- id: interactive
-  name: Make it interactive
-  description: >
-    Deliver the result as an interactive graphic (plotly, ggiraph or
-    leaflet) with tooltips that genuinely add information.
-
-- id: quarto-dashboard
-  name: Ship a dashboard
-  description: >
-    Present the findings as a Quarto dashboard with at least three
-    coordinated panels.
-
 - id: self-contained-chart
   name: The chart stands alone
+  difficulty: mild
   description: >
     Produce one chart so thoroughly annotated (title, subtitle, direct
     labels, source note) that it needs no surrounding text at all.
 
 - id: colorblind-safe
   name: Colour with care
+  difficulty: mild
   description: >
     Use only a colourblind-safe palette (viridis or Okabe-Ito) and verify
     the result with a simulator before calling it done.
 
-- id: second-dataset
-  name: Bring a friend
-  description: >
-    Join in a second dataset from this generator's own index and make the
-    combination essential to the answer.
-
 - id: hundred-lines
   name: 100 lines, max
+  difficulty: mild
   description: >
     The entire analysis — import to final figure — in at most 100 lines of
     R, comments included.
 
-- id: data-table
-  name: Speak data.table
-  description: >
-    Use data.table for every transformation instead of your usual tools,
-    idiomatically (no dplyr translations).
-
-- id: package-it
-  name: Package it
-  description: >
-    Wrap the core logic as functions in a minimal R package with roxygen
-    docs and at least three testthat tests.
-
 - id: small-multiples
   name: Small multiples, no legends
+  difficulty: mild
   description: >
     Every comparison must be a faceted small-multiples chart with direct
     labelling — legends are banned.
 
-- id: publication-style
-  name: Newsroom style
-  description: >
-    Style the final graphic like The Economist, FT or BBC — typography,
-    grid, annotations and all — using a theme you build yourself.
-
-- id: targets-pipeline
-  name: Reproducible pipeline
-  description: >
-    Orchestrate the analysis with the {targets} package so a single
-    tar_make() rebuilds everything from scratch.
-
 - id: no-loops
   name: No loops
+  difficulty: mild
   description: >
     No for or while loops anywhere — vectorised operations and purrr/apply
     functions only.
 
 - id: table-centrepiece
   name: The table is the chart
+  difficulty: mild
   description: >
     Make a beautifully formatted table (gt or reactable) the centrepiece
     deliverable instead of a plot.
 
-- id: webr-publish
-  name: Publish it in webR
-  description: >
-    Publish the analysis so it runs in the reader's browser via webR or
-    shinylive — just like this generator does.
-
 - id: five-minute-story
   name: Tell it in five slides
+  difficulty: mild
   description: >
     Condense the whole project into five presentation slides (Quarto revealjs)
     a non-technical audience could follow.
 
 - id: log-scale-defence
   name: Defend your axes
+  difficulty: mild
   description: >
     Somewhere a log scale, index (=100) rebasing, or per-capita adjustment
     changes the story. Show the naive version and the adjusted one, and argue
     for your choice.
 
+- id: annotate-history
+  name: Annotate the timeline
+  difficulty: mild
+  description: >
+    Overlay the real-world events that explain the shape of your data —
+    at least five dated annotations, each earning its place.
+
+- id: one-hue
+  name: Monochrome
+  difficulty: mild
+  description: >
+    One hue only. Encode every distinction through lightness, size, shape or
+    position — never a second colour.
+
+- id: readme-first
+  name: Register your bets
+  difficulty: mild
+  description: >
+    Before touching the data, write down three predictions about what you
+    will find. Publish them unedited next to what you actually found.
+
+# ---- medium -----------------------------------------------------------------
+
+- id: base-r-only
+  name: No tidyverse
+  difficulty: medium
+  description: >
+    Do the whole analysis and all plots in base R — no dplyr, no ggplot2.
+    Rediscover aggregate(), tapply() and friends.
+
+- id: interactive
+  name: Make it interactive
+  difficulty: medium
+  description: >
+    Deliver the result as an interactive graphic (plotly, ggiraph or
+    leaflet) with tooltips that genuinely add information.
+
+- id: quarto-dashboard
+  name: Ship a dashboard
+  difficulty: medium
+  description: >
+    Present the findings as a Quarto dashboard with at least three
+    coordinated panels.
+
+- id: second-dataset
+  name: Bring a friend
+  difficulty: medium
+  description: >
+    Join in a second dataset from this generator's own index and make the
+    combination essential to the answer.
+
 - id: sensitivity-analysis
   name: Stress-test it
+  difficulty: medium
   description: >
     Identify the three most consequential analytical choices you made and
     show how the headline result moves when each is varied.
 
 - id: art-mode
   name: Data art
+  difficulty: medium
   description: >
     Alongside the serious analysis, render the same data as a purely
     aesthetic generative-art piece.
+
+- id: shiny-app
+  name: Make it an app
+  difficulty: medium
+  description: >
+    Wrap the analysis in a small Shiny app with at least one input that
+    meaningfully changes what the user sees.
+
+- id: animate-it
+  name: Set it in motion
+  difficulty: medium
+  description: >
+    The key chart must be animated (gganimate) — and the motion must encode
+    information, not decoration.
+
+- id: api-fresh
+  name: No stale data
+  difficulty: medium
+  description: >
+    The script must pull the data live from the source (API or URL) on every
+    run — no downloaded files committed to the project.
+
+- id: data-quality-gate
+  name: Guard the gate
+  difficulty: medium
+  description: >
+    Add an explicit validation stage (pointblank or hand-rolled assertions)
+    that checks at least eight expectations about the raw data before any
+    analysis runs.
+
+- id: lie-detector
+  name: Lie, then confess
+  difficulty: medium
+  description: >
+    Build the most misleading chart you can from this data without faking a
+    single number. Then show the honest version and annotate every trick.
+
+- id: duckdb-sql
+  name: Speak SQL
+  difficulty: medium
+  description: >
+    All heavy lifting happens in DuckDB via SQL queries from R — dplyr may
+    only touch the final, aggregated result.
+
+# ---- spicy ------------------------------------------------------------------
+
+- id: data-table
+  name: Speak data.table
+  difficulty: spicy
+  description: >
+    Use data.table for every transformation instead of your usual tools,
+    idiomatically (no dplyr translations).
+
+- id: package-it
+  name: Package it
+  difficulty: spicy
+  description: >
+    Wrap the core logic as functions in a minimal R package with roxygen
+    docs and at least three testthat tests.
+
+- id: publication-style
+  name: Newsroom style
+  difficulty: spicy
+  description: >
+    Style the final graphic like The Economist, FT or BBC — typography,
+    grid, annotations and all — using a theme you build yourself.
+
+- id: targets-pipeline
+  name: Reproducible pipeline
+  difficulty: spicy
+  description: >
+    Orchestrate the analysis with the {targets} package so a single
+    tar_make() rebuilds everything from scratch.
+
+- id: webr-publish
+  name: Publish it in webR
+  difficulty: spicy
+  description: >
+    Publish the analysis so it runs in the reader's browser via webR or
+    shinylive — just like this generator does.
+
+- id: model-bake-off
+  name: Model bake-off
+  difficulty: spicy
+  description: >
+    Fit at least three different model classes with tidymodels, compare them
+    with honest resampled metrics, and declare a winner you can defend.
+
+- id: go-bayesian
+  name: Go Bayesian
+  difficulty: spicy
+  description: >
+    Estimate the headline quantity with a Bayesian model (brms or rstanarm),
+    show the full posterior, and explain your priors out loud.
+
+- id: memory-diet
+  name: Memory diet
+  difficulty: spicy
+  description: >
+    Pretend the data is 100x bigger: process it in chunks or via arrow/duckdb
+    streaming, never holding the full raw dataset in RAM.
+
+- id: one-command-repro
+  name: One-command reproduction
+  difficulty: spicy
+  description: >
+    A stranger must be able to clone the repo and rebuild every result with
+    a single command — renv lockfile, pinned versions, no manual steps.
+
+- id: ci-render
+  name: Robot in the loop
+  difficulty: spicy
+  description: >
+    A GitHub Action must re-run the analysis and re-render the report on
+    every push, failing loudly if anything breaks.
+
+# ---- extra-spicy ------------------------------------------------------------
+
+- id: stone-age-r
+  name: Stone-age R
+  difficulty: extra-spicy
+  description: >
+    Zero packages. Not one library() call — download, wrangling, statistics
+    and graphics in what ships with base R alone.
+
+- id: live-dashboard
+  name: Keep it alive
+  difficulty: extra-spicy
+  description: >
+    Deploy a dashboard that refreshes itself on a schedule (GitHub Actions
+    cron re-render to Pages counts) and is still up a month from now.
+
+- id: bilingual-pipeline
+  name: Bilingual pipeline
+  difficulty: extra-spicy
+  description: >
+    Rebuild the core pipeline a second time in another language (Python, SQL
+    or Julia) and prove the two implementations agree to the last digit.
+
+- id: tweet-sized
+  name: Tweet-sized analysis
+  difficulty: extra-spicy
+  description: >
+    After the full analysis, compress the core computation into 280
+    characters of R that still produces the headline number and a plot.
+
+- id: teach-it
+  name: Teach it back
+  difficulty: extra-spicy
+  description: >
+    Turn the project into a self-guided tutorial (learnr or a literate
+    Quarto walkthrough) that a beginner could follow to reproduce every
+    step — exercises and wrong-turn warnings included.
+
+- id: full-simulation
+  name: Build the twin
+  difficulty: extra-spicy
+  description: >
+    Write a generative simulation of the process behind this data, calibrate
+    it until simulated data is hard to tell from the real thing, then use it
+    to answer a what-if the data alone cannot.

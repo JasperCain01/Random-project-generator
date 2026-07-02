@@ -48,25 +48,37 @@ rpg_combo_id <- function(dataset, question, challenge) {
   paste(dataset$id, question$id, challenge$id, sep = "|")
 }
 
-# Total number of distinct combinations for a theme selection.
-rpg_n_combos <- function(registry, themes = character(0)) {
-  length(rpg_valid_pairs(registry, themes)) * length(registry$challenges)
+# Challenges matching a difficulty selection (empty selection = all).
+rpg_valid_challenges <- function(registry, difficulties = character(0)) {
+  Filter(function(ch) {
+    length(difficulties) == 0 || ch$difficulty %in% difficulties
+  }, registry$challenges)
+}
+
+# Total number of distinct combinations for a theme/difficulty selection.
+rpg_n_combos <- function(registry, themes = character(0),
+                         difficulties = character(0)) {
+  length(rpg_valid_pairs(registry, themes)) *
+    length(rpg_valid_challenges(registry, difficulties))
 }
 
 # Draw one suggestion, avoiding combo ids listed in `seen`.
 # Returns a list with status = "ok" and dataset/question/challenge fields,
 # or status = "exhausted" / "empty" when nothing can be drawn.
 rpg_suggest <- function(registry, themes = character(0),
-                        seen = character(0), seed = NULL) {
+                        seen = character(0), seed = NULL,
+                        difficulties = character(0)) {
   if (!is.null(seed)) set.seed(seed)
   themes <- as.character(themes)
   seen <- as.character(seen)
+  difficulties <- as.character(difficulties)
 
   pairs <- rpg_valid_pairs(registry, themes)
-  n_chal <- length(registry$challenges)
+  chals <- rpg_valid_challenges(registry, difficulties)
+  n_chal <- length(chals)
   total <- length(pairs) * n_chal
   if (total == 0) {
-    return(list(status = "empty", themes = themes))
+    return(list(status = "empty", themes = themes, difficulties = difficulties))
   }
 
   # Enumerate unseen combos lazily: sample combo indices without replacement.
@@ -76,14 +88,14 @@ rpg_suggest <- function(registry, themes = character(0),
     c_idx <- ((k - 1L) %% n_chal) + 1L
     ds <- registry$datasets[[p[1]]]
     qu <- registry$questions[[p[2]]]
-    ch <- registry$challenges[[c_idx]]
+    ch <- chals[[c_idx]]
     id <- rpg_combo_id(ds, qu, ch)
     if (!(id %in% seen)) {
       question_text <- gsub("{dataset}", ds$name, qu$template, fixed = TRUE)
       return(list(
         status = "ok",
         combo_id = id,
-        remaining = total - length(intersect(seen, rpg_all_combo_ids(pairs, registry))) - 1L,
+        remaining = total - length(intersect(seen, rpg_all_combo_ids(pairs, registry, chals))) - 1L,
         total = total,
         dataset = ds,
         question = list(id = qu$id, family = qu$family, text = question_text),
@@ -91,16 +103,17 @@ rpg_suggest <- function(registry, themes = character(0),
       ))
     }
   }
-  list(status = "exhausted", themes = themes, total = total)
+  list(status = "exhausted", themes = themes, difficulties = difficulties,
+       total = total)
 }
 
 # All combo ids reachable from a set of pairs (used to count remaining).
-rpg_all_combo_ids <- function(pairs, registry) {
+rpg_all_combo_ids <- function(pairs, registry, chals = registry$challenges) {
   ids <- character(0)
   for (p in pairs) {
     ds <- registry$datasets[[p[1]]]
     qu <- registry$questions[[p[2]]]
-    for (ch in registry$challenges) {
+    for (ch in chals) {
       ids[length(ids) + 1L] <- rpg_combo_id(ds, qu, ch)
     }
   }
@@ -143,11 +156,13 @@ rpg_to_json <- function(x) {
 }
 
 # Bridge for webR: draw a suggestion and return it as a JSON string.
-# `registry` is the object loaded once at startup; themes/seen are plain
-# character vectors built by the JavaScript side.
+# `registry` is the object loaded once at startup; themes/seen/difficulties
+# are plain character vectors built by the JavaScript side.
 rpg_suggest_json <- function(registry, themes = character(0),
-                             seen = character(0)) {
-  rpg_to_json(rpg_suggest(registry, themes = themes, seen = seen))
+                             seen = character(0),
+                             difficulties = character(0)) {
+  rpg_to_json(rpg_suggest(registry, themes = themes, seen = seen,
+                          difficulties = difficulties))
 }
 
 # Pretty-print a suggestion in the console.
@@ -163,7 +178,7 @@ rpg_print <- function(s) {
   cat("Link:      ", s$dataset$url, "\n\n")
   cat("Question   [", s$question$family, "]\n")
   cat("           ", trimws(s$question$text), "\n\n")
-  cat("Challenge: ", s$challenge$name, "\n")
+  cat("Challenge: ", s$challenge$name, " (", s$challenge$difficulty, ")\n", sep = "")
   cat("           ", trimws(s$challenge$description), "\n\n")
   invisible(s)
 }

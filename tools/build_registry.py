@@ -79,6 +79,10 @@ def main():
     for q in registry["questions"]:
         if "{dataset}" not in q["template"] and q["id"] != "simulation-uncertainty":
             errors.append(f"{q['id']}: template missing {{dataset}} placeholder")
+    DIFFICULTIES = {"mild", "medium", "spicy", "extra-spicy"}
+    for ch in registry["challenges"]:
+        if ch.get("difficulty") not in DIFFICULTIES:
+            errors.append(f"{ch['id']}: difficulty must be one of {sorted(DIFFICULTIES)}")
     if errors:
         sys.exit("Validation failed:\n  " + "\n  ".join(errors))
 

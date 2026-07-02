@@ -484,108 +484,338 @@ list(
       `family` = "Relationships",
       `requires_any` = c("relational"),
       `template` = "The interesting answer in {dataset} needs at least two of its tables. Find a question that only a join can answer, and answer it.\n"
+    ),
+    list(
+      `id` = "lead-lag",
+      `family` = "Relationships",
+      `requires_any` = c("time_series"),
+      `template` = "Pick two related series in {dataset} (or split one by group). Does one lead the other? Use cross-correlation at different lags to find out.\n"
+    ),
+    list(
+      `id` = "volatility-regimes",
+      `family` = "Trends",
+      `requires_any` = c("time_series"),
+      `template` = "Ignore the level of {dataset} and study its volatility instead. When was it calmest, when wildest, and does turbulence cluster in time?\n"
+    ),
+    list(
+      `id` = "event-impact",
+      `family` = "Trends",
+      `requires_all` = c("events", "time_series"),
+      `template` = "Choose one notable event in {dataset} and treat it as a natural experiment: compare before and after, against a sensible counterfactual.\n"
+    ),
+    list(
+      `id` = "record-extremes",
+      `family` = "Anomalies",
+      `requires_any` = c("time_series"),
+      `template` = "Study the records in {dataset}: how extreme is the most extreme value, how often are records broken, and is the rate of record-breaking itself speeding up or slowing down?\n"
+    ),
+    list(
+      `id` = "rank-mobility",
+      `family` = "Comparison",
+      `requires_all` = c("panel"),
+      `template` = "Build a league table from {dataset} at two points in time. Who climbed, who fell, and is the ordering becoming more frozen or more fluid?\n"
+    ),
+    list(
+      `id` = "composition-shift",
+      `family` = "Comparison",
+      `requires_all` = c("categorical", "time_series"),
+      `template` = "Look at shares, not totals, in {dataset}. How has the composition shifted over time, and which category's rise came at whose expense?\n"
+    ),
+    list(
+      `id` = "simpsons-paradox",
+      `family` = "Relationships",
+      `requires_any` = c("categorical", "individual_level"),
+      `template` = "Hunt for a Simpson's paradox in {dataset}: a relationship that weakens, vanishes or reverses once you split the data by the right grouping variable. If you find one, explain it; if not, show why it's safe.\n"
+    ),
+    list(
+      `id` = "regression-drivers",
+      `family` = "Relationships",
+      `requires_any` = c("multivariate_numeric"),
+      `template` = "Pick an outcome variable in {dataset} and model it. Which predictors genuinely matter, how big are their effects in real-world units, and what does the model get badly wrong?\n"
+    ),
+    list(
+      `id` = "classification",
+      `family` = "Prediction",
+      `requires_all` = c("multivariate_numeric", "categorical"),
+      `template` = "Train a classifier on {dataset} to predict one of its categorical labels. How accurate can you get with honest cross-validation, and which features carry the signal?\n"
+    ),
+    list(
+      `id` = "market-basket",
+      `family` = "Patterns",
+      `requires_any` = c("transactions"),
+      `template` = "Mine {dataset} for co-occurrence: which items, categories or behaviours appear together far more often than chance? Turn the strongest association rules into a plain-language insight.\n"
+    ),
+    list(
+      `id` = "rfm-segmentation",
+      `family` = "Patterns",
+      `requires_any` = c("transactions"),
+      `template` = "Segment the customers in {dataset} by recency, frequency and monetary value. Profile each segment and say what you would do differently for the top and bottom ones.\n"
+    ),
+    list(
+      `id` = "benford",
+      `family` = "Data quality",
+      `requires_any` = c("transactions", "country_level", "events"),
+      `template` = "Do the leading digits in {dataset} obey Benford's law? Test it, visualise the deviation, and explain what conformity — or non-conformity — actually implies here.\n"
+    ),
+    list(
+      `id` = "network-asymmetry",
+      `family` = "Networks",
+      `requires_any` = c("network"),
+      `template` = "Study the imbalances in {dataset}: which flows or relationships are strongly one-directional, and what does the pattern of asymmetry reveal?\n"
+    ),
+    list(
+      `id` = "text-complexity",
+      `family` = "Text",
+      `requires_any` = c("text"),
+      `template` = "Measure how the language in {dataset} has changed: sentence length, readability, vocabulary richness. Is it getting simpler — and when did the style shift most sharply?\n"
+    ),
+    list(
+      `id` = "distinctive-words",
+      `family` = "Text",
+      `requires_any` = c("text"),
+      `template` = "Split {dataset} into eras or groups and find each one's signature vocabulary (tf-idf or log-odds). What do the distinctive words say about how concerns have changed?\n"
     )
   ),
   `challenges` = list(
     list(
-      `id` = "base-r-only",
-      `name` = "No tidyverse",
-      `description` = "Do the whole analysis and all plots in base R — no dplyr, no ggplot2. Rediscover aggregate(), tapply() and friends.\n"
-    ),
-    list(
       `id` = "one-pipe",
       `name` = "One pipe to rule them all",
+      `difficulty` = "mild",
       `description` = "Express the core data transformation as a single unbroken pipe chain, from raw data to plot-ready table.\n"
-    ),
-    list(
-      `id` = "interactive",
-      `name` = "Make it interactive",
-      `description` = "Deliver the result as an interactive graphic (plotly, ggiraph or leaflet) with tooltips that genuinely add information.\n"
-    ),
-    list(
-      `id` = "quarto-dashboard",
-      `name` = "Ship a dashboard",
-      `description` = "Present the findings as a Quarto dashboard with at least three coordinated panels.\n"
     ),
     list(
       `id` = "self-contained-chart",
       `name` = "The chart stands alone",
+      `difficulty` = "mild",
       `description` = "Produce one chart so thoroughly annotated (title, subtitle, direct labels, source note) that it needs no surrounding text at all.\n"
     ),
     list(
       `id` = "colorblind-safe",
       `name` = "Colour with care",
+      `difficulty` = "mild",
       `description` = "Use only a colourblind-safe palette (viridis or Okabe-Ito) and verify the result with a simulator before calling it done.\n"
-    ),
-    list(
-      `id` = "second-dataset",
-      `name` = "Bring a friend",
-      `description` = "Join in a second dataset from this generator's own index and make the combination essential to the answer.\n"
     ),
     list(
       `id` = "hundred-lines",
       `name` = "100 lines, max",
+      `difficulty` = "mild",
       `description` = "The entire analysis — import to final figure — in at most 100 lines of R, comments included.\n"
-    ),
-    list(
-      `id` = "data-table",
-      `name` = "Speak data.table",
-      `description` = "Use data.table for every transformation instead of your usual tools, idiomatically (no dplyr translations).\n"
-    ),
-    list(
-      `id` = "package-it",
-      `name` = "Package it",
-      `description` = "Wrap the core logic as functions in a minimal R package with roxygen docs and at least three testthat tests.\n"
     ),
     list(
       `id` = "small-multiples",
       `name` = "Small multiples, no legends",
+      `difficulty` = "mild",
       `description` = "Every comparison must be a faceted small-multiples chart with direct labelling — legends are banned.\n"
-    ),
-    list(
-      `id` = "publication-style",
-      `name` = "Newsroom style",
-      `description` = "Style the final graphic like The Economist, FT or BBC — typography, grid, annotations and all — using a theme you build yourself.\n"
-    ),
-    list(
-      `id` = "targets-pipeline",
-      `name` = "Reproducible pipeline",
-      `description` = "Orchestrate the analysis with the {targets} package so a single tar_make() rebuilds everything from scratch.\n"
     ),
     list(
       `id` = "no-loops",
       `name` = "No loops",
+      `difficulty` = "mild",
       `description` = "No for or while loops anywhere — vectorised operations and purrr/apply functions only.\n"
     ),
     list(
       `id` = "table-centrepiece",
       `name` = "The table is the chart",
+      `difficulty` = "mild",
       `description` = "Make a beautifully formatted table (gt or reactable) the centrepiece deliverable instead of a plot.\n"
-    ),
-    list(
-      `id` = "webr-publish",
-      `name` = "Publish it in webR",
-      `description` = "Publish the analysis so it runs in the reader's browser via webR or shinylive — just like this generator does.\n"
     ),
     list(
       `id` = "five-minute-story",
       `name` = "Tell it in five slides",
+      `difficulty` = "mild",
       `description` = "Condense the whole project into five presentation slides (Quarto revealjs) a non-technical audience could follow.\n"
     ),
     list(
       `id` = "log-scale-defence",
       `name` = "Defend your axes",
+      `difficulty` = "mild",
       `description` = "Somewhere a log scale, index (=100) rebasing, or per-capita adjustment changes the story. Show the naive version and the adjusted one, and argue for your choice.\n"
+    ),
+    list(
+      `id` = "annotate-history",
+      `name` = "Annotate the timeline",
+      `difficulty` = "mild",
+      `description` = "Overlay the real-world events that explain the shape of your data — at least five dated annotations, each earning its place.\n"
+    ),
+    list(
+      `id` = "one-hue",
+      `name` = "Monochrome",
+      `difficulty` = "mild",
+      `description` = "One hue only. Encode every distinction through lightness, size, shape or position — never a second colour.\n"
+    ),
+    list(
+      `id` = "readme-first",
+      `name` = "Register your bets",
+      `difficulty` = "mild",
+      `description` = "Before touching the data, write down three predictions about what you will find. Publish them unedited next to what you actually found.\n"
+    ),
+    list(
+      `id` = "base-r-only",
+      `name` = "No tidyverse",
+      `difficulty` = "medium",
+      `description` = "Do the whole analysis and all plots in base R — no dplyr, no ggplot2. Rediscover aggregate(), tapply() and friends.\n"
+    ),
+    list(
+      `id` = "interactive",
+      `name` = "Make it interactive",
+      `difficulty` = "medium",
+      `description` = "Deliver the result as an interactive graphic (plotly, ggiraph or leaflet) with tooltips that genuinely add information.\n"
+    ),
+    list(
+      `id` = "quarto-dashboard",
+      `name` = "Ship a dashboard",
+      `difficulty` = "medium",
+      `description` = "Present the findings as a Quarto dashboard with at least three coordinated panels.\n"
+    ),
+    list(
+      `id` = "second-dataset",
+      `name` = "Bring a friend",
+      `difficulty` = "medium",
+      `description` = "Join in a second dataset from this generator's own index and make the combination essential to the answer.\n"
     ),
     list(
       `id` = "sensitivity-analysis",
       `name` = "Stress-test it",
+      `difficulty` = "medium",
       `description` = "Identify the three most consequential analytical choices you made and show how the headline result moves when each is varied.\n"
     ),
     list(
       `id` = "art-mode",
       `name` = "Data art",
+      `difficulty` = "medium",
       `description` = "Alongside the serious analysis, render the same data as a purely aesthetic generative-art piece.\n"
+    ),
+    list(
+      `id` = "shiny-app",
+      `name` = "Make it an app",
+      `difficulty` = "medium",
+      `description` = "Wrap the analysis in a small Shiny app with at least one input that meaningfully changes what the user sees.\n"
+    ),
+    list(
+      `id` = "animate-it",
+      `name` = "Set it in motion",
+      `difficulty` = "medium",
+      `description` = "The key chart must be animated (gganimate) — and the motion must encode information, not decoration.\n"
+    ),
+    list(
+      `id` = "api-fresh",
+      `name` = "No stale data",
+      `difficulty` = "medium",
+      `description` = "The script must pull the data live from the source (API or URL) on every run — no downloaded files committed to the project.\n"
+    ),
+    list(
+      `id` = "data-quality-gate",
+      `name` = "Guard the gate",
+      `difficulty` = "medium",
+      `description` = "Add an explicit validation stage (pointblank or hand-rolled assertions) that checks at least eight expectations about the raw data before any analysis runs.\n"
+    ),
+    list(
+      `id` = "lie-detector",
+      `name` = "Lie, then confess",
+      `difficulty` = "medium",
+      `description` = "Build the most misleading chart you can from this data without faking a single number. Then show the honest version and annotate every trick.\n"
+    ),
+    list(
+      `id` = "duckdb-sql",
+      `name` = "Speak SQL",
+      `difficulty` = "medium",
+      `description` = "All heavy lifting happens in DuckDB via SQL queries from R — dplyr may only touch the final, aggregated result.\n"
+    ),
+    list(
+      `id` = "data-table",
+      `name` = "Speak data.table",
+      `difficulty` = "spicy",
+      `description` = "Use data.table for every transformation instead of your usual tools, idiomatically (no dplyr translations).\n"
+    ),
+    list(
+      `id` = "package-it",
+      `name` = "Package it",
+      `difficulty` = "spicy",
+      `description` = "Wrap the core logic as functions in a minimal R package with roxygen docs and at least three testthat tests.\n"
+    ),
+    list(
+      `id` = "publication-style",
+      `name` = "Newsroom style",
+      `difficulty` = "spicy",
+      `description` = "Style the final graphic like The Economist, FT or BBC — typography, grid, annotations and all — using a theme you build yourself.\n"
+    ),
+    list(
+      `id` = "targets-pipeline",
+      `name` = "Reproducible pipeline",
+      `difficulty` = "spicy",
+      `description` = "Orchestrate the analysis with the {targets} package so a single tar_make() rebuilds everything from scratch.\n"
+    ),
+    list(
+      `id` = "webr-publish",
+      `name` = "Publish it in webR",
+      `difficulty` = "spicy",
+      `description` = "Publish the analysis so it runs in the reader's browser via webR or shinylive — just like this generator does.\n"
+    ),
+    list(
+      `id` = "model-bake-off",
+      `name` = "Model bake-off",
+      `difficulty` = "spicy",
+      `description` = "Fit at least three different model classes with tidymodels, compare them with honest resampled metrics, and declare a winner you can defend.\n"
+    ),
+    list(
+      `id` = "go-bayesian",
+      `name` = "Go Bayesian",
+      `difficulty` = "spicy",
+      `description` = "Estimate the headline quantity with a Bayesian model (brms or rstanarm), show the full posterior, and explain your priors out loud.\n"
+    ),
+    list(
+      `id` = "memory-diet",
+      `name` = "Memory diet",
+      `difficulty` = "spicy",
+      `description` = "Pretend the data is 100x bigger: process it in chunks or via arrow/duckdb streaming, never holding the full raw dataset in RAM.\n"
+    ),
+    list(
+      `id` = "one-command-repro",
+      `name` = "One-command reproduction",
+      `difficulty` = "spicy",
+      `description` = "A stranger must be able to clone the repo and rebuild every result with a single command — renv lockfile, pinned versions, no manual steps.\n"
+    ),
+    list(
+      `id` = "ci-render",
+      `name` = "Robot in the loop",
+      `difficulty` = "spicy",
+      `description` = "A GitHub Action must re-run the analysis and re-render the report on every push, failing loudly if anything breaks.\n"
+    ),
+    list(
+      `id` = "stone-age-r",
+      `name` = "Stone-age R",
+      `difficulty` = "extra-spicy",
+      `description` = "Zero packages. Not one library() call — download, wrangling, statistics and graphics in what ships with base R alone.\n"
+    ),
+    list(
+      `id` = "live-dashboard",
+      `name` = "Keep it alive",
+      `difficulty` = "extra-spicy",
+      `description` = "Deploy a dashboard that refreshes itself on a schedule (GitHub Actions cron re-render to Pages counts) and is still up a month from now.\n"
+    ),
+    list(
+      `id` = "bilingual-pipeline",
+      `name` = "Bilingual pipeline",
+      `difficulty` = "extra-spicy",
+      `description` = "Rebuild the core pipeline a second time in another language (Python, SQL or Julia) and prove the two implementations agree to the last digit.\n"
+    ),
+    list(
+      `id` = "tweet-sized",
+      `name` = "Tweet-sized analysis",
+      `difficulty` = "extra-spicy",
+      `description` = "After the full analysis, compress the core computation into 280 characters of R that still produces the headline number and a plot.\n"
+    ),
+    list(
+      `id` = "teach-it",
+      `name` = "Teach it back",
+      `difficulty` = "extra-spicy",
+      `description` = "Turn the project into a self-guided tutorial (learnr or a literate Quarto walkthrough) that a beginner could follow to reproduce every step — exercises and wrong-turn warnings included.\n"
+    ),
+    list(
+      `id` = "full-simulation",
+      `name` = "Build the twin",
+      `difficulty` = "extra-spicy",
+      `description` = "Write a generative simulation of the process behind this data, calibrate it until simulated data is hard to tell from the real thing, then use it to answer a what-if the data alone cannot.\n"
     )
   )
 )

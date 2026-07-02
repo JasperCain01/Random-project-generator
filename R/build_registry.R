@@ -19,7 +19,10 @@ stopifnot(
   all(vapply(registry$datasets, function(d) length(d$themes) > 0, logical(1))),
   all(vapply(registry$datasets, function(d) length(d$shape_tags) > 0, logical(1))),
   all(vapply(registry$questions, function(q) grepl("{dataset}", q$template, fixed = TRUE) ||
-        identical(q$id, "simulation-uncertainty"), logical(1)))
+        identical(q$id, "simulation-uncertainty"), logical(1))),
+  all(vapply(registry$challenges, function(ch)
+        isTRUE(ch$difficulty %in% c("mild", "medium", "spicy", "extra-spicy")),
+        logical(1)))
 )
 
 # Every dataset must match at least one question archetype.

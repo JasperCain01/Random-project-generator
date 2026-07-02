@@ -151,3 +151,117 @@
   template: >
     The interesting answer in {dataset} needs at least two of its tables.
     Find a question that only a join can answer, and answer it.
+
+- id: lead-lag
+  family: Relationships
+  requires_any: [time_series]
+  template: >
+    Pick two related series in {dataset} (or split one by group). Does one
+    lead the other? Use cross-correlation at different lags to find out.
+
+- id: volatility-regimes
+  family: Trends
+  requires_any: [time_series]
+  template: >
+    Ignore the level of {dataset} and study its volatility instead. When was
+    it calmest, when wildest, and does turbulence cluster in time?
+
+- id: event-impact
+  family: Trends
+  requires_all: [events, time_series]
+  template: >
+    Choose one notable event in {dataset} and treat it as a natural
+    experiment: compare before and after, against a sensible counterfactual.
+
+- id: record-extremes
+  family: Anomalies
+  requires_any: [time_series]
+  template: >
+    Study the records in {dataset}: how extreme is the most extreme value,
+    how often are records broken, and is the rate of record-breaking itself
+    speeding up or slowing down?
+
+- id: rank-mobility
+  family: Comparison
+  requires_all: [panel]
+  template: >
+    Build a league table from {dataset} at two points in time. Who climbed,
+    who fell, and is the ordering becoming more frozen or more fluid?
+
+- id: composition-shift
+  family: Comparison
+  requires_all: [categorical, time_series]
+  template: >
+    Look at shares, not totals, in {dataset}. How has the composition shifted
+    over time, and which category's rise came at whose expense?
+
+- id: simpsons-paradox
+  family: Relationships
+  requires_any: [categorical, individual_level]
+  template: >
+    Hunt for a Simpson's paradox in {dataset}: a relationship that weakens,
+    vanishes or reverses once you split the data by the right grouping
+    variable. If you find one, explain it; if not, show why it's safe.
+
+- id: regression-drivers
+  family: Relationships
+  requires_any: [multivariate_numeric]
+  template: >
+    Pick an outcome variable in {dataset} and model it. Which predictors
+    genuinely matter, how big are their effects in real-world units, and
+    what does the model get badly wrong?
+
+- id: classification
+  family: Prediction
+  requires_all: [multivariate_numeric, categorical]
+  template: >
+    Train a classifier on {dataset} to predict one of its categorical labels.
+    How accurate can you get with honest cross-validation, and which features
+    carry the signal?
+
+- id: market-basket
+  family: Patterns
+  requires_any: [transactions]
+  template: >
+    Mine {dataset} for co-occurrence: which items, categories or behaviours
+    appear together far more often than chance? Turn the strongest
+    association rules into a plain-language insight.
+
+- id: rfm-segmentation
+  family: Patterns
+  requires_any: [transactions]
+  template: >
+    Segment the customers in {dataset} by recency, frequency and monetary
+    value. Profile each segment and say what you would do differently for
+    the top and bottom ones.
+
+- id: benford
+  family: Data quality
+  requires_any: [transactions, country_level, events]
+  template: >
+    Do the leading digits in {dataset} obey Benford's law? Test it, visualise
+    the deviation, and explain what conformity — or non-conformity — actually
+    implies here.
+
+- id: network-asymmetry
+  family: Networks
+  requires_any: [network]
+  template: >
+    Study the imbalances in {dataset}: which flows or relationships are
+    strongly one-directional, and what does the pattern of asymmetry reveal?
+
+- id: text-complexity
+  family: Text
+  requires_any: [text]
+  template: >
+    Measure how the language in {dataset} has changed: sentence length,
+    readability, vocabulary richness. Is it getting simpler — and when did
+    the style shift most sharply?
+
+- id: distinctive-words
+  family: Text
+  requires_any: [text]
+  template: >
+    Split {dataset} into eras or groups and find each one's signature
+    vocabulary (tf-idf or log-odds). What do the distinctive words say about
+    how concerns have changed?
