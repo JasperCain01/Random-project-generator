@@ -113,31 +113,101 @@ list(
       `license` = "Free tier, attribution required"
     ),
     list(
-      `id` = "wdi",
-      `name` = "World Bank — World Development Indicators",
-      `description` = "1,400+ annual indicators (GDP, poverty, education, energy, trade) for every country since 1960, queryable from R.\n",
-      `themes` = c("economics", "international-relations", "health", "environment"),
+      `id` = "wdi-health",
+      `name` = "World Bank WDI — health indicators",
+      `description` = "The health slice of the World Development Indicators: life expectancy, infant and maternal mortality, immunisation coverage, health spending — for every country since 1960.\n",
+      `themes` = c("health"),
       `shape_tags` = c("time_series", "panel", "country_level", "multivariate_numeric"),
       `size` = "medium",
       `access` = list(
         `type` = "r_package",
-        `hint` = "install.packages('WDI'); WDI::WDI(indicator='NY.GDP.PCAP.KD', start=1990)"
+        `hint` = "install.packages('WDI'); WDI::WDI(indicator=c('SP.DYN.LE00.IN','SH.DYN.MORT'), start=1990)  # life expectancy, under-5 mortality"
       ),
-      `url` = "https://data.worldbank.org",
+      `url` = "https://data.worldbank.org/topic/health",
       `license` = "CC BY 4.0"
     ),
     list(
-      `id` = "eurostat",
-      `name` = "Eurostat — official EU statistics",
-      `description` = "The EU's statistical office: demographics, economy, agriculture, tourism, transport and more, at country and regional (NUTS) level.\n",
-      `themes` = c("economics", "politics", "international-relations", "commerce"),
+      `id` = "wdi-economy",
+      `name` = "World Bank WDI — economic indicators",
+      `description` = "The macroeconomic core of the World Development Indicators: GDP, growth, inflation, unemployment, poverty headcounts — every country since 1960.\n",
+      `themes` = c("economics"),
+      `shape_tags` = c("time_series", "panel", "country_level", "multivariate_numeric"),
+      `size` = "medium",
+      `access` = list(
+        `type` = "r_package",
+        `hint` = "install.packages('WDI'); WDI::WDI(indicator=c('NY.GDP.PCAP.KD','FP.CPI.TOTL.ZG'), start=1990)  # GDP per capita, inflation"
+      ),
+      `url` = "https://data.worldbank.org/topic/economy-and-growth",
+      `license` = "CC BY 4.0"
+    ),
+    list(
+      `id` = "wdi-climate",
+      `name` = "World Bank WDI — energy & emissions",
+      `description` = "Environment and energy indicators from the WDI: CO2 emissions per capita, renewable energy share, electricity access, forest area.\n",
+      `themes` = c("environment", "economics"),
+      `shape_tags` = c("time_series", "panel", "country_level", "multivariate_numeric"),
+      `size` = "medium",
+      `access` = list(
+        `type` = "r_package",
+        `hint` = "install.packages('WDI'); WDI::WDI(indicator=c('EN.GHG.CO2.PC.CE.AR5','EG.FEC.RNEW.ZS'), start=1990)  # CO2 per capita, renewables share"
+      ),
+      `url` = "https://data.worldbank.org/topic/environment",
+      `license` = "CC BY 4.0"
+    ),
+    list(
+      `id` = "wdi-aid-remittances",
+      `name` = "World Bank WDI — aid & remittance flows",
+      `description` = "Money crossing borders: official development aid received, personal remittances, and foreign direct investment, by country and year.\n",
+      `themes` = c("international-relations", "economics"),
+      `shape_tags` = c("time_series", "panel", "country_level", "multivariate_numeric"),
+      `size` = "medium",
+      `access` = list(
+        `type` = "r_package",
+        `hint` = "install.packages('WDI'); WDI::WDI(indicator=c('DT.ODA.ODAT.PC.ZS','BX.TRF.PWKR.DT.GD.ZS'), start=1990)  # aid per capita, remittances %GDP"
+      ),
+      `url` = "https://data.worldbank.org/topic/aid-effectiveness",
+      `license` = "CC BY 4.0"
+    ),
+    list(
+      `id` = "eurostat-economy",
+      `name` = "Eurostat — unemployment & inflation",
+      `description` = "Harmonised unemployment and inflation (HICP) series for EU countries and regions, monthly and annual, from the EU's statistical office.\n",
+      `themes` = c("economics"),
       `shape_tags` = c("time_series", "panel", "geographic", "country_level"),
       `size` = "medium",
       `access` = list(
         `type` = "r_package",
-        `hint` = "install.packages('eurostat'); eurostat::search_eurostat('unemployment')"
+        `hint` = "install.packages('eurostat'); eurostat::get_eurostat('une_rt_m')  # monthly unemployment rate"
       ),
-      `url` = "https://ec.europa.eu/eurostat",
+      `url` = "https://ec.europa.eu/eurostat/web/lfs",
+      `license` = "CC BY 4.0"
+    ),
+    list(
+      `id` = "eurostat-tourism",
+      `name` = "Eurostat — tourism & accommodation",
+      `description` = "Nights spent at tourist accommodation across EU countries and regions — strong seasonality, COVID shock, north-south contrasts.\n",
+      `themes` = c("commerce"),
+      `shape_tags` = c("time_series", "panel", "geographic", "country_level"),
+      `size` = "medium",
+      `access` = list(
+        `type` = "r_package",
+        `hint` = "install.packages('eurostat'); eurostat::get_eurostat('tour_occ_nim')  # monthly nights spent"
+      ),
+      `url` = "https://ec.europa.eu/eurostat/web/tourism",
+      `license` = "CC BY 4.0"
+    ),
+    list(
+      `id` = "eurostat-migration",
+      `name` = "Eurostat — migration & asylum",
+      `description` = "Immigration, emigration and asylum applications by citizenship for EU countries — the data behind one of Europe's defining political debates.\n",
+      `themes` = c("international-relations", "politics"),
+      `shape_tags` = c("time_series", "panel", "country_level", "categorical"),
+      `size` = "medium",
+      `access` = list(
+        `type` = "r_package",
+        `hint` = "install.packages('eurostat'); eurostat::get_eurostat('migr_asyappctza')  # annual asylum applications"
+      ),
+      `url` = "https://ec.europa.eu/eurostat/web/migration-asylum",
       `license` = "CC BY 4.0"
     ),
     list(
@@ -354,7 +424,7 @@ list(
       `id` = "tidytuesday-lucky-dip",
       `name` = "TidyTuesday lucky dip",
       `description` = "Let fate go one level deeper: pick a random week from the TidyTuesday archive of 300+ curated, pre-cleaned datasets and use whatever you get.\n",
-      `themes` = c("culture", "science", "commerce", "sport", "politics", "health", "environment"),
+      `themes` = c("surprise-me"),
       `shape_tags` = c("time_series", "categorical", "multivariate_numeric", "cross_section"),
       `size` = "small",
       `access` = list(

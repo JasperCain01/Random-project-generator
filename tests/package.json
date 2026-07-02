@@ -1,0 +1,14 @@
+{
+  "name": "random-project-generator-tests",
+  "private": true,
+  "description": "webR unit tests for the R engine and a Playwright end-to-end test of the site",
+  "scripts": {
+    "test:generator": "node test_generator.js",
+    "test:site": "node test_site.js",
+    "test": "npm run test:generator && npm run test:site"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0",
+    "webr": "^0.6.0"
+  }
+}

@@ -127,32 +127,109 @@
   url: https://www.coingecko.com/en/api
   license: Free tier, attribution required
 
-- id: wdi
-  name: World Bank — World Development Indicators
+# The World Bank's WDI catalogue spans very different subjects, so it appears
+# as several themed entries — each with an example indicator that matches its
+# theme, so a draw is always self-explanatory.
+
+- id: wdi-health
+  name: World Bank WDI — health indicators
   description: >
-    1,400+ annual indicators (GDP, poverty, education, energy, trade) for
-    every country since 1960, queryable from R.
-  themes: [economics, international-relations, health, environment]
+    The health slice of the World Development Indicators: life expectancy,
+    infant and maternal mortality, immunisation coverage, health spending —
+    for every country since 1960.
+  themes: [health]
   shape_tags: [time_series, panel, country_level, multivariate_numeric]
   size: medium
   access:
     type: r_package
-    hint: "install.packages('WDI'); WDI::WDI(indicator='NY.GDP.PCAP.KD', start=1990)"
-  url: https://data.worldbank.org
+    hint: "install.packages('WDI'); WDI::WDI(indicator=c('SP.DYN.LE00.IN','SH.DYN.MORT'), start=1990)  # life expectancy, under-5 mortality"
+  url: https://data.worldbank.org/topic/health
   license: CC BY 4.0
 
-- id: eurostat
-  name: Eurostat — official EU statistics
+- id: wdi-economy
+  name: World Bank WDI — economic indicators
   description: >
-    The EU's statistical office: demographics, economy, agriculture, tourism,
-    transport and more, at country and regional (NUTS) level.
-  themes: [economics, politics, international-relations, commerce]
+    The macroeconomic core of the World Development Indicators: GDP, growth,
+    inflation, unemployment, poverty headcounts — every country since 1960.
+  themes: [economics]
+  shape_tags: [time_series, panel, country_level, multivariate_numeric]
+  size: medium
+  access:
+    type: r_package
+    hint: "install.packages('WDI'); WDI::WDI(indicator=c('NY.GDP.PCAP.KD','FP.CPI.TOTL.ZG'), start=1990)  # GDP per capita, inflation"
+  url: https://data.worldbank.org/topic/economy-and-growth
+  license: CC BY 4.0
+
+- id: wdi-climate
+  name: World Bank WDI — energy & emissions
+  description: >
+    Environment and energy indicators from the WDI: CO2 emissions per capita,
+    renewable energy share, electricity access, forest area.
+  themes: [environment, economics]
+  shape_tags: [time_series, panel, country_level, multivariate_numeric]
+  size: medium
+  access:
+    type: r_package
+    hint: "install.packages('WDI'); WDI::WDI(indicator=c('EN.GHG.CO2.PC.CE.AR5','EG.FEC.RNEW.ZS'), start=1990)  # CO2 per capita, renewables share"
+  url: https://data.worldbank.org/topic/environment
+  license: CC BY 4.0
+
+- id: wdi-aid-remittances
+  name: World Bank WDI — aid & remittance flows
+  description: >
+    Money crossing borders: official development aid received, personal
+    remittances, and foreign direct investment, by country and year.
+  themes: [international-relations, economics]
+  shape_tags: [time_series, panel, country_level, multivariate_numeric]
+  size: medium
+  access:
+    type: r_package
+    hint: "install.packages('WDI'); WDI::WDI(indicator=c('DT.ODA.ODAT.PC.ZS','BX.TRF.PWKR.DT.GD.ZS'), start=1990)  # aid per capita, remittances %GDP"
+  url: https://data.worldbank.org/topic/aid-effectiveness
+  license: CC BY 4.0
+
+# Eurostat is likewise a catalogue, split into themed slices.
+
+- id: eurostat-economy
+  name: Eurostat — unemployment & inflation
+  description: >
+    Harmonised unemployment and inflation (HICP) series for EU countries and
+    regions, monthly and annual, from the EU's statistical office.
+  themes: [economics]
   shape_tags: [time_series, panel, geographic, country_level]
   size: medium
   access:
     type: r_package
-    hint: "install.packages('eurostat'); eurostat::search_eurostat('unemployment')"
-  url: https://ec.europa.eu/eurostat
+    hint: "install.packages('eurostat'); eurostat::get_eurostat('une_rt_m')  # monthly unemployment rate"
+  url: https://ec.europa.eu/eurostat/web/lfs
+  license: CC BY 4.0
+
+- id: eurostat-tourism
+  name: Eurostat — tourism & accommodation
+  description: >
+    Nights spent at tourist accommodation across EU countries and regions —
+    strong seasonality, COVID shock, north-south contrasts.
+  themes: [commerce]
+  shape_tags: [time_series, panel, geographic, country_level]
+  size: medium
+  access:
+    type: r_package
+    hint: "install.packages('eurostat'); eurostat::get_eurostat('tour_occ_nim')  # monthly nights spent"
+  url: https://ec.europa.eu/eurostat/web/tourism
+  license: CC BY 4.0
+
+- id: eurostat-migration
+  name: Eurostat — migration & asylum
+  description: >
+    Immigration, emigration and asylum applications by citizenship for EU
+    countries — the data behind one of Europe's defining political debates.
+  themes: [international-relations, politics]
+  shape_tags: [time_series, panel, country_level, categorical]
+  size: medium
+  access:
+    type: r_package
+    hint: "install.packages('eurostat'); eurostat::get_eurostat('migr_asyappctza')  # annual asylum applications"
+  url: https://ec.europa.eu/eurostat/web/migration-asylum
   license: CC BY 4.0
 
 - id: online-retail-uci
@@ -365,12 +442,15 @@
   url: https://github.com/martj42/international_results
   license: CC0
 
+# The lucky dip could land on any subject, so it does not claim real themes —
+# it has its own "surprise-me" chip and otherwise only appears when no theme
+# filter is active.
 - id: tidytuesday-lucky-dip
   name: TidyTuesday lucky dip
   description: >
     Let fate go one level deeper: pick a random week from the TidyTuesday
     archive of 300+ curated, pre-cleaned datasets and use whatever you get.
-  themes: [culture, science, commerce, sport, politics, health, environment]
+  themes: [surprise-me]
   shape_tags: [time_series, categorical, multivariate_numeric, cross_section]
   size: small
   access:

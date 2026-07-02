@@ -1,0 +1,5 @@
+node_modules
+tests/site.png
+tests/package-lock.json
+.Rproj.user
+.Rhistory

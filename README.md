@@ -13,7 +13,7 @@ GitHub Pages site. No server, no install.
 ## How it works
 
 ```
-data/datasets.yaml     26 curated public datasets, tagged by theme + data shape
+data/datasets.yaml     31 curated public datasets, tagged by theme + data shape
 data/questions.yaml    35 question archetypes with {dataset} placeholders
 data/challenges.yaml   40 dataset-independent challenges, rated mild → extra-spicy
         │
@@ -28,9 +28,16 @@ docs/index.html + app.js + style.css   the GitHub Pages site
 Variety comes from combinatorics, not volume: question archetypes declare
 which data shapes they need (`requires_any` / `requires_all` against each
 dataset's `shape_tags`), so every pairing is coherent — you'll never be asked
-to run a PCA on a two-column table. The current registry yields **~15,000
+to run a PCA on a two-column table. The current registry yields **~19,000
 valid combinations**, and the site remembers what you've been dealt
 (localStorage) so a combination never repeats on your device.
+
+Catalogue-style sources (World Bank WDI, Eurostat) appear as several
+single-theme entries, each with an example indicator matching its theme, so
+a draw always makes sense on its face — a "health" filter deals you WDI
+*health indicators*, never a generic WDI entry with a GDP example. The
+TidyTuesday lucky dip claims no real themes at all; it has its own
+"surprise me" chip.
 
 ## Play it
 
@@ -87,7 +94,12 @@ Pass `seen = <character vector of combo_ids>` to exclude previous draws, or
   build copies it into `docs/`. It deliberately avoids all packages (even
   jsonlite — it ships a ~30-line JSON encoder) so webR needs zero package
   downloads at startup.
-- The end-to-end behaviour (webR boot, theme filter, no-repeat history,
-  exhaustion) is exercised headlessly with Playwright against the `webr`
-  npm distribution; the generator logic itself is unit-tested inside
-  Node-hosted webR.
+- Tests live in `tests/`: `test_generator.js` unit-tests the R engine inside
+  Node-hosted webR (combo counts, tag matching, difficulty filter, no-repeat,
+  exhaustion), and `test_site.js` drives the real page headlessly with
+  Playwright, serving the `webr` npm distribution in place of the CDN so the
+  test is fully offline. Run with:
+
+  ```sh
+  cd tests && npm install && npx playwright install chromium && npm test
+  ```
