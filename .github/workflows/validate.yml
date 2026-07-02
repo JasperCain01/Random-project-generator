@@ -1,0 +1,24 @@
+name: Validate registry
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - name: Rebuild registry from YAML sources
+        run: python3 tools/build_registry.py
+      - name: Fail if committed docs/ artefacts are stale
+        run: |
+          git diff --exit-code docs/registry.json docs/registry.R docs/generator.R || {
+            echo "::error::docs/ artefacts are out of sync — run tools/build_registry.py and commit the result"
+            exit 1
+          }

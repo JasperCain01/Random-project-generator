@@ -1,0 +1,1202 @@
+{
+  "datasets": [
+    {
+      "id": "gapminder",
+      "name": "Gapminder — life expectancy, population & GDP",
+      "description": "Country-level life expectancy, population and GDP per capita for 142 countries, 1952-2007. The classic development dataset.\n",
+      "themes": [
+        "health",
+        "economics",
+        "international-relations"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "multivariate_numeric",
+        "country_level"
+      ],
+      "size": "small",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('gapminder'); library(gapminder)"
+      },
+      "url": "https://cran.r-project.org/package=gapminder",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "owid-life-expectancy",
+      "name": "Our World in Data — life expectancy",
+      "description": "Long-run life expectancy at birth for every country, some series reaching back to the 1700s. Tidy CSV straight from the OWID grapher.\n",
+      "themes": [
+        "health",
+        "international-relations"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "country_level"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "csv_url",
+        "hint": "read.csv('https://ourworldindata.org/grapher/life-expectancy.csv?v=1&csvType=full')"
+      },
+      "url": "https://ourworldindata.org/life-expectancy",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "owid-covid",
+      "name": "Our World in Data — COVID-19 dataset",
+      "description": "Daily cases, deaths, testing, hospitalisation and vaccination for every country over the whole pandemic. Large but tidy.\n",
+      "themes": [
+        "health",
+        "politics",
+        "international-relations"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "country_level",
+        "large"
+      ],
+      "size": "large",
+      "access": {
+        "type": "csv_url",
+        "hint": "read.csv('https://covid.ourworldindata.org/data/owid-covid-data.csv')"
+      },
+      "url": "https://github.com/owid/covid-19-data",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "nhanes",
+      "name": "NHANES — US national health & nutrition survey",
+      "description": "Individual-level body measurements, demographics, lifestyle and lab results from the CDC's national health examination survey.\n",
+      "themes": [
+        "health"
+      ],
+      "shape_tags": [
+        "multivariate_numeric",
+        "individual_level",
+        "survey",
+        "categorical"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('NHANES'); library(NHANES); data(NHANES)"
+      },
+      "url": "https://cran.r-project.org/package=NHANES",
+      "license": "Public domain (CDC)"
+    },
+    {
+      "id": "cdc-causes-of-death",
+      "name": "CDC — leading causes of death in the US",
+      "description": "Age-adjusted death rates for the ten leading causes of death, by US state and year, from the National Center for Health Statistics.\n",
+      "themes": [
+        "health",
+        "politics"
+      ],
+      "shape_tags": [
+        "time_series",
+        "categorical",
+        "geographic",
+        "panel"
+      ],
+      "size": "small",
+      "access": {
+        "type": "csv_url",
+        "hint": "read.csv('https://data.cdc.gov/api/views/bi63-dtpu/rows.csv?accessType=DOWNLOAD')"
+      },
+      "url": "https://data.cdc.gov/NCHS/NCHS-Leading-Causes-of-Death-United-States/bi63-dtpu",
+      "license": "Public domain (US government)"
+    },
+    {
+      "id": "fred",
+      "name": "FRED — Federal Reserve economic data",
+      "description": "Hundreds of thousands of US and international macroeconomic time series: rates, inflation, employment, money supply. Pick any series that catches your eye.\n",
+      "themes": [
+        "finance",
+        "economics"
+      ],
+      "shape_tags": [
+        "time_series"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "api",
+        "hint": "install.packages('fredr'); fredr::fredr('UNRATE')  # free API key, or CSV export from the site"
+      },
+      "url": "https://fred.stlouisfed.org",
+      "license": "Mostly public domain; per-series terms"
+    },
+    {
+      "id": "stock-prices",
+      "name": "Daily stock & index prices (Yahoo Finance)",
+      "description": "Open/high/low/close/volume for any listed ticker or index, decades deep, one function call away.\n",
+      "themes": [
+        "finance"
+      ],
+      "shape_tags": [
+        "time_series",
+        "multivariate_numeric"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('tidyquant'); tidyquant::tq_get(c('AAPL','^GSPC'), from='2015-01-01')"
+      },
+      "url": "https://business-science.github.io/tidyquant/",
+      "license": "Personal/research use (Yahoo terms)"
+    },
+    {
+      "id": "crypto-coingecko",
+      "name": "CoinGecko — cryptocurrency market histories",
+      "description": "Price, market cap and volume histories for thousands of cryptocurrencies via a free, keyless JSON API.\n",
+      "themes": [
+        "finance"
+      ],
+      "shape_tags": [
+        "time_series"
+      ],
+      "size": "small",
+      "access": {
+        "type": "api",
+        "hint": "jsonlite::fromJSON('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365')"
+      },
+      "url": "https://www.coingecko.com/en/api",
+      "license": "Free tier, attribution required"
+    },
+    {
+      "id": "wdi-health",
+      "name": "World Bank WDI — health indicators",
+      "description": "The health slice of the World Development Indicators: life expectancy, infant and maternal mortality, immunisation coverage, health spending — for every country since 1960.\n",
+      "themes": [
+        "health"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "country_level",
+        "multivariate_numeric"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('WDI'); WDI::WDI(indicator=c('SP.DYN.LE00.IN','SH.DYN.MORT'), start=1990)  # life expectancy, under-5 mortality"
+      },
+      "url": "https://data.worldbank.org/topic/health",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "wdi-economy",
+      "name": "World Bank WDI — economic indicators",
+      "description": "The macroeconomic core of the World Development Indicators: GDP, growth, inflation, unemployment, poverty headcounts — every country since 1960.\n",
+      "themes": [
+        "economics"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "country_level",
+        "multivariate_numeric"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('WDI'); WDI::WDI(indicator=c('NY.GDP.PCAP.KD','FP.CPI.TOTL.ZG'), start=1990)  # GDP per capita, inflation"
+      },
+      "url": "https://data.worldbank.org/topic/economy-and-growth",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "wdi-climate",
+      "name": "World Bank WDI — energy & emissions",
+      "description": "Environment and energy indicators from the WDI: CO2 emissions per capita, renewable energy share, electricity access, forest area.\n",
+      "themes": [
+        "environment",
+        "economics"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "country_level",
+        "multivariate_numeric"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('WDI'); WDI::WDI(indicator=c('EN.GHG.CO2.PC.CE.AR5','EG.FEC.RNEW.ZS'), start=1990)  # CO2 per capita, renewables share"
+      },
+      "url": "https://data.worldbank.org/topic/environment",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "wdi-aid-remittances",
+      "name": "World Bank WDI — aid & remittance flows",
+      "description": "Money crossing borders: official development aid received, personal remittances, and foreign direct investment, by country and year.\n",
+      "themes": [
+        "international-relations",
+        "economics"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "country_level",
+        "multivariate_numeric"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('WDI'); WDI::WDI(indicator=c('DT.ODA.ODAT.PC.ZS','BX.TRF.PWKR.DT.GD.ZS'), start=1990)  # aid per capita, remittances %GDP"
+      },
+      "url": "https://data.worldbank.org/topic/aid-effectiveness",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "eurostat-economy",
+      "name": "Eurostat — unemployment & inflation",
+      "description": "Harmonised unemployment and inflation (HICP) series for EU countries and regions, monthly and annual, from the EU's statistical office.\n",
+      "themes": [
+        "economics"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "geographic",
+        "country_level"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('eurostat'); eurostat::get_eurostat('une_rt_m')  # monthly unemployment rate"
+      },
+      "url": "https://ec.europa.eu/eurostat/web/lfs",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "eurostat-tourism",
+      "name": "Eurostat — tourism & accommodation",
+      "description": "Nights spent at tourist accommodation across EU countries and regions — strong seasonality, COVID shock, north-south contrasts.\n",
+      "themes": [
+        "commerce"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "geographic",
+        "country_level"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('eurostat'); eurostat::get_eurostat('tour_occ_nim')  # monthly nights spent"
+      },
+      "url": "https://ec.europa.eu/eurostat/web/tourism",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "eurostat-migration",
+      "name": "Eurostat — migration & asylum",
+      "description": "Immigration, emigration and asylum applications by citizenship for EU countries — the data behind one of Europe's defining political debates.\n",
+      "themes": [
+        "international-relations",
+        "politics"
+      ],
+      "shape_tags": [
+        "time_series",
+        "panel",
+        "country_level",
+        "categorical"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('eurostat'); eurostat::get_eurostat('migr_asyappctza')  # annual asylum applications"
+      },
+      "url": "https://ec.europa.eu/eurostat/web/migration-asylum",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "online-retail-uci",
+      "name": "UCI — online retail transactions",
+      "description": "Half a million real transactions from a UK online giftware retailer over two years: invoices, products, quantities, prices, customer country.\n",
+      "themes": [
+        "commerce"
+      ],
+      "shape_tags": [
+        "transactions",
+        "time_series",
+        "categorical",
+        "large"
+      ],
+      "size": "large",
+      "access": {
+        "type": "download",
+        "hint": "Download the xlsx from the UCI repository, then readxl::read_excel()"
+      },
+      "url": "https://archive.ics.uci.edu/dataset/502/online+retail+ii",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "olist-ecommerce",
+      "name": "Olist — Brazilian e-commerce orders",
+      "description": "100k orders from a Brazilian marketplace: order items, payments, reviews, sellers and customer geolocation across eight relational tables.\n",
+      "themes": [
+        "commerce"
+      ],
+      "shape_tags": [
+        "transactions",
+        "categorical",
+        "geographic",
+        "relational",
+        "large"
+      ],
+      "size": "large",
+      "access": {
+        "type": "kaggle",
+        "hint": "Download from Kaggle (free account), then read the CSVs with readr"
+      },
+      "url": "https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",
+      "license": "CC BY-NC-SA 4.0"
+    },
+    {
+      "id": "un-comtrade",
+      "name": "UN Comtrade — international trade flows",
+      "description": "Bilateral imports and exports by commodity between all countries — the canonical who-sells-what-to-whom dataset.\n",
+      "themes": [
+        "commerce",
+        "economics",
+        "international-relations"
+      ],
+      "shape_tags": [
+        "network",
+        "country_level",
+        "panel",
+        "categorical"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('comtradr'); comtradr::ct_get_data(reporter='GB', partner='all')  # free API key"
+      },
+      "url": "https://comtradeplus.un.org",
+      "license": "Free for research with registration"
+    },
+    {
+      "id": "unvotes",
+      "name": "UN General Assembly voting records",
+      "description": "Every UN General Assembly roll-call vote since 1946: country, vote, and issue classification. Great for alignment and bloc analysis.\n",
+      "themes": [
+        "politics",
+        "international-relations"
+      ],
+      "shape_tags": [
+        "panel",
+        "categorical",
+        "country_level",
+        "network",
+        "time_series"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('unvotes'); library(unvotes)"
+      },
+      "url": "https://cran.r-project.org/package=unvotes",
+      "license": "CC0 (Voeten et al.)"
+    },
+    {
+      "id": "mit-election-lab",
+      "name": "MIT Election Lab — US presidential returns by county",
+      "description": "County-level US presidential election results 2000-2020, with party and candidate vote counts.\n",
+      "themes": [
+        "politics"
+      ],
+      "shape_tags": [
+        "geographic",
+        "categorical",
+        "panel"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "download",
+        "hint": "Download CSV from the Harvard Dataverse, then readr::read_csv()"
+      },
+      "url": "https://electionlab.mit.edu/data",
+      "license": "CC0"
+    },
+    {
+      "id": "vdem",
+      "name": "V-Dem — Varieties of Democracy indices",
+      "description": "450+ expert-coded indicators of democracy (elections, civil liberties, media freedom) for nearly every country back to 1789.\n",
+      "themes": [
+        "politics",
+        "international-relations"
+      ],
+      "shape_tags": [
+        "panel",
+        "multivariate_numeric",
+        "time_series",
+        "country_level"
+      ],
+      "size": "large",
+      "access": {
+        "type": "r_package",
+        "hint": "remotes::install_github('vdeminstitute/vdemdata'); library(vdemdata)"
+      },
+      "url": "https://v-dem.net",
+      "license": "Free for research, cite V-Dem"
+    },
+    {
+      "id": "ucdp-conflict",
+      "name": "UCDP/PRIO — armed conflict dataset",
+      "description": "Every armed conflict since 1946 with parties, location, intensity and year — the standard academic conflict dataset.\n",
+      "themes": [
+        "international-relations",
+        "politics"
+      ],
+      "shape_tags": [
+        "events",
+        "time_series",
+        "geographic",
+        "categorical"
+      ],
+      "size": "small",
+      "access": {
+        "type": "download",
+        "hint": "Download CSV from ucdp.uu.se/downloads, then readr::read_csv()"
+      },
+      "url": "https://ucdp.uu.se/downloads/",
+      "license": "Free with citation"
+    },
+    {
+      "id": "unhcr-refugees",
+      "name": "UNHCR — refugee population statistics",
+      "description": "Refugees, asylum seekers and internally displaced people by origin and asylum country, yearly since 1951, via UNHCR's own R package.\n",
+      "themes": [
+        "international-relations",
+        "politics"
+      ],
+      "shape_tags": [
+        "panel",
+        "time_series",
+        "country_level",
+        "network"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('refugees'); library(refugees); refugees::population"
+      },
+      "url": "https://www.unhcr.org/refugee-statistics/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "nasa-gistemp",
+      "name": "NASA GISTEMP — global temperature anomalies",
+      "description": "Monthly global and zonal surface temperature anomalies since 1880, maintained by NASA GISS.\n",
+      "themes": [
+        "environment"
+      ],
+      "shape_tags": [
+        "time_series"
+      ],
+      "size": "small",
+      "access": {
+        "type": "csv_url",
+        "hint": "read.csv('https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv', skip=1)"
+      },
+      "url": "https://data.giss.nasa.gov/gistemp/",
+      "license": "Public domain (NASA)"
+    },
+    {
+      "id": "global-power-plants",
+      "name": "WRI — global power plant database",
+      "description": "~35,000 power plants worldwide with location, fuel type, capacity and estimated generation.\n",
+      "themes": [
+        "environment",
+        "economics"
+      ],
+      "shape_tags": [
+        "geographic",
+        "categorical",
+        "cross_section"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "download",
+        "hint": "Download CSV from WRI / datasets.wri.org, then readr::read_csv()"
+      },
+      "url": "https://datasets.wri.org/dataset/globalpowerplantdatabase",
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "palmerpenguins",
+      "name": "Palmer Station penguins",
+      "description": "Body measurements for 344 penguins of three species from the Palmer Archipelago, Antarctica. The friendlier iris.\n",
+      "themes": [
+        "science",
+        "environment"
+      ],
+      "shape_tags": [
+        "multivariate_numeric",
+        "categorical",
+        "cross_section",
+        "individual_level"
+      ],
+      "size": "small",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('palmerpenguins'); library(palmerpenguins)"
+      },
+      "url": "https://allisonhorst.github.io/palmerpenguins/",
+      "license": "CC0"
+    },
+    {
+      "id": "nycflights13",
+      "name": "nycflights13 — every flight out of NYC in 2013",
+      "description": "336,776 flights from the three New York airports with delays, carriers, weather and plane metadata in five relational tables.\n",
+      "themes": [
+        "transport",
+        "commerce"
+      ],
+      "shape_tags": [
+        "time_series",
+        "categorical",
+        "relational",
+        "network",
+        "large",
+        "events"
+      ],
+      "size": "large",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('nycflights13'); library(nycflights13)"
+      },
+      "url": "https://cran.r-project.org/package=nycflights13",
+      "license": "CC0"
+    },
+    {
+      "id": "sotu-speeches",
+      "name": "State of the Union addresses (full text)",
+      "description": "The complete text of every US State of the Union address since 1790 — two centuries of political language in one package.\n",
+      "themes": [
+        "politics",
+        "culture"
+      ],
+      "shape_tags": [
+        "text",
+        "time_series"
+      ],
+      "size": "small",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('sotu'); library(sotu); sotu_text"
+      },
+      "url": "https://cran.r-project.org/package=sotu",
+      "license": "CC0"
+    },
+    {
+      "id": "spotify-songs",
+      "name": "Spotify songs — audio features of 30k tracks",
+      "description": "Danceability, energy, valence, tempo and popularity for ~30,000 songs across six genres (TidyTuesday, sourced from the Spotify API).\n",
+      "themes": [
+        "culture",
+        "commerce"
+      ],
+      "shape_tags": [
+        "multivariate_numeric",
+        "categorical",
+        "cross_section"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "csv_url",
+        "hint": "read.csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')"
+      },
+      "url": "https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-01-21/readme.md",
+      "license": "CC0 (TidyTuesday)"
+    },
+    {
+      "id": "international-football",
+      "name": "International football results, 1872-present",
+      "description": "Every men's international football match since 1872: teams, score, tournament, venue. 47k+ matches, updated continuously.\n",
+      "themes": [
+        "sport",
+        "culture",
+        "international-relations"
+      ],
+      "shape_tags": [
+        "time_series",
+        "events",
+        "categorical",
+        "network"
+      ],
+      "size": "medium",
+      "access": {
+        "type": "csv_url",
+        "hint": "read.csv('https://raw.githubusercontent.com/martj42/international_results/master/results.csv')"
+      },
+      "url": "https://github.com/martj42/international_results",
+      "license": "CC0"
+    },
+    {
+      "id": "tidytuesday-lucky-dip",
+      "name": "TidyTuesday lucky dip",
+      "description": "Let fate go one level deeper: pick a random week from the TidyTuesday archive of 300+ curated, pre-cleaned datasets and use whatever you get.\n",
+      "themes": [
+        "surprise-me"
+      ],
+      "shape_tags": [
+        "time_series",
+        "categorical",
+        "multivariate_numeric",
+        "cross_section"
+      ],
+      "size": "small",
+      "access": {
+        "type": "r_package",
+        "hint": "install.packages('tidytuesdayR'); tidytuesdayR::tt_load(sample(2019:2024,1), week=sample(1:52,1))"
+      },
+      "url": "https://github.com/rfordatascience/tidytuesday",
+      "license": "Varies by week (documented per dataset)"
+    }
+  ],
+  "questions": [
+    {
+      "id": "long-run-trend",
+      "family": "Trends",
+      "requires_any": [
+        "time_series"
+      ],
+      "template": "What is the long-run trend in {dataset}? Decompose it: how much is secular drift, how much is seasonal or cyclical, and how much is noise?\n"
+    },
+    {
+      "id": "changepoint",
+      "family": "Trends",
+      "requires_any": [
+        "time_series"
+      ],
+      "template": "Find the moment the story changed in {dataset}. Is there a structural break or regime change, and what real-world event coincides with it?\n"
+    },
+    {
+      "id": "forecast",
+      "family": "Forecasting",
+      "requires_any": [
+        "time_series"
+      ],
+      "template": "Build a forecast from {dataset} for the next few periods. Compare a naive baseline against a proper model — how much does the model actually buy you?\n"
+    },
+    {
+      "id": "convergence-divergence",
+      "family": "Trends",
+      "requires_all": [
+        "panel",
+        "country_level"
+      ],
+      "template": "Are countries in {dataset} converging or diverging over time? Quantify the gap between the top and bottom groups and how it has moved.\n"
+    },
+    {
+      "id": "pca-structure",
+      "family": "Dimensionality",
+      "requires_any": [
+        "multivariate_numeric"
+      ],
+      "template": "Run a PCA on {dataset}. What do the first two or three components mean in plain language, and which observations sit far from everyone else?\n"
+    },
+    {
+      "id": "clustering",
+      "family": "Dimensionality",
+      "requires_any": [
+        "multivariate_numeric"
+      ],
+      "template": "Cluster the observations in {dataset}. How many natural groups are there, do they match any existing labels, and what defines each group?\n"
+    },
+    {
+      "id": "anomaly-hunt",
+      "family": "Anomalies",
+      "requires_any": [
+        "time_series",
+        "multivariate_numeric",
+        "transactions"
+      ],
+      "template": "Hunt for anomalies in {dataset}. Define \"unusual\" quantitatively, flag the strangest observations, and investigate whether they are errors or stories.\n"
+    },
+    {
+      "id": "spatial-pattern",
+      "family": "Spatial",
+      "requires_any": [
+        "geographic"
+      ],
+      "template": "Map {dataset}. Is the spatial pattern clustered, dispersed, or random — and can you back that judgement with a statistic rather than a glance?\n"
+    },
+    {
+      "id": "choropleth-story",
+      "family": "Spatial",
+      "requires_any": [
+        "geographic"
+      ],
+      "template": "Build a choropleth (or point map) from {dataset} that tells one clear story, then write the three-sentence caption that a newspaper would print.\n"
+    },
+    {
+      "id": "network-centrality",
+      "family": "Networks",
+      "requires_any": [
+        "network"
+      ],
+      "template": "Treat {dataset} as a network. Who are the most central nodes, does the network have communities, and how has its structure shifted over time?\n"
+    },
+    {
+      "id": "league-table",
+      "family": "Comparison",
+      "requires_any": [
+        "categorical",
+        "country_level"
+      ],
+      "template": "Build a defensible ranking from {dataset}. Who is top, who is bottom, how sensitive is the ordering to your methodological choices?\n"
+    },
+    {
+      "id": "correlation-vs-causation",
+      "family": "Relationships",
+      "requires_any": [
+        "panel",
+        "multivariate_numeric"
+      ],
+      "template": "Pick two variables in {dataset} that correlate strongly. Argue both sides: what would the causal story be, and what confounder could explain it away?\n"
+    },
+    {
+      "id": "distribution-inequality",
+      "family": "Distributions",
+      "requires_any": [
+        "individual_level",
+        "transactions",
+        "country_level"
+      ],
+      "template": "Study the full distribution in {dataset}, not just the mean. How skewed or unequal is it (Gini, top-decile share), and is that concentration growing?\n"
+    },
+    {
+      "id": "simulation-uncertainty",
+      "family": "Simulation",
+      "template": "Take one headline number you can compute from {dataset} and put honest uncertainty around it using bootstrap or permutation methods. Does the headline survive?\n"
+    },
+    {
+      "id": "missingness",
+      "family": "Data quality",
+      "requires_any": [
+        "survey",
+        "panel",
+        "individual_level"
+      ],
+      "template": "Profile the missing data in {dataset}. Is it missing at random? Who or what is systematically absent, and how would that bias a naive analysis?\n"
+    },
+    {
+      "id": "text-sentiment",
+      "family": "Text",
+      "requires_any": [
+        "text"
+      ],
+      "template": "Track sentiment and emotional language across {dataset} over time. When was the tone darkest, and does it track historical events?\n"
+    },
+    {
+      "id": "text-topics",
+      "family": "Text",
+      "requires_any": [
+        "text"
+      ],
+      "template": "Fit a topic model to {dataset}. What themes emerge, and how has their prominence risen and fallen across the corpus?\n"
+    },
+    {
+      "id": "seasonality",
+      "family": "Trends",
+      "requires_any": [
+        "time_series"
+      ],
+      "template": "Isolate the seasonal or weekly rhythm in {dataset}. What repeats, how strong is the cycle, and is the rhythm itself changing?\n"
+    },
+    {
+      "id": "cohort-comparison",
+      "family": "Comparison",
+      "requires_any": [
+        "categorical",
+        "individual_level"
+      ],
+      "template": "Split {dataset} into meaningful cohorts and compare them. Which difference between groups is largest, and does it hold up after controlling for an obvious confounder?\n"
+    },
+    {
+      "id": "relational-join-insight",
+      "family": "Relationships",
+      "requires_any": [
+        "relational"
+      ],
+      "template": "The interesting answer in {dataset} needs at least two of its tables. Find a question that only a join can answer, and answer it.\n"
+    },
+    {
+      "id": "lead-lag",
+      "family": "Relationships",
+      "requires_any": [
+        "time_series"
+      ],
+      "template": "Pick two related series in {dataset} (or split one by group). Does one lead the other? Use cross-correlation at different lags to find out.\n"
+    },
+    {
+      "id": "volatility-regimes",
+      "family": "Trends",
+      "requires_any": [
+        "time_series"
+      ],
+      "template": "Ignore the level of {dataset} and study its volatility instead. When was it calmest, when wildest, and does turbulence cluster in time?\n"
+    },
+    {
+      "id": "event-impact",
+      "family": "Trends",
+      "requires_all": [
+        "events",
+        "time_series"
+      ],
+      "template": "Choose one notable event in {dataset} and treat it as a natural experiment: compare before and after, against a sensible counterfactual.\n"
+    },
+    {
+      "id": "record-extremes",
+      "family": "Anomalies",
+      "requires_any": [
+        "time_series"
+      ],
+      "template": "Study the records in {dataset}: how extreme is the most extreme value, how often are records broken, and is the rate of record-breaking itself speeding up or slowing down?\n"
+    },
+    {
+      "id": "rank-mobility",
+      "family": "Comparison",
+      "requires_all": [
+        "panel"
+      ],
+      "template": "Build a league table from {dataset} at two points in time. Who climbed, who fell, and is the ordering becoming more frozen or more fluid?\n"
+    },
+    {
+      "id": "composition-shift",
+      "family": "Comparison",
+      "requires_all": [
+        "categorical",
+        "time_series"
+      ],
+      "template": "Look at shares, not totals, in {dataset}. How has the composition shifted over time, and which category's rise came at whose expense?\n"
+    },
+    {
+      "id": "simpsons-paradox",
+      "family": "Relationships",
+      "requires_any": [
+        "categorical",
+        "individual_level"
+      ],
+      "template": "Hunt for a Simpson's paradox in {dataset}: a relationship that weakens, vanishes or reverses once you split the data by the right grouping variable. If you find one, explain it; if not, show why it's safe.\n"
+    },
+    {
+      "id": "regression-drivers",
+      "family": "Relationships",
+      "requires_any": [
+        "multivariate_numeric"
+      ],
+      "template": "Pick an outcome variable in {dataset} and model it. Which predictors genuinely matter, how big are their effects in real-world units, and what does the model get badly wrong?\n"
+    },
+    {
+      "id": "classification",
+      "family": "Prediction",
+      "requires_all": [
+        "multivariate_numeric",
+        "categorical"
+      ],
+      "template": "Train a classifier on {dataset} to predict one of its categorical labels. How accurate can you get with honest cross-validation, and which features carry the signal?\n"
+    },
+    {
+      "id": "market-basket",
+      "family": "Patterns",
+      "requires_any": [
+        "transactions"
+      ],
+      "template": "Mine {dataset} for co-occurrence: which items, categories or behaviours appear together far more often than chance? Turn the strongest association rules into a plain-language insight.\n"
+    },
+    {
+      "id": "rfm-segmentation",
+      "family": "Patterns",
+      "requires_any": [
+        "transactions"
+      ],
+      "template": "Segment the customers in {dataset} by recency, frequency and monetary value. Profile each segment and say what you would do differently for the top and bottom ones.\n"
+    },
+    {
+      "id": "benford",
+      "family": "Data quality",
+      "requires_any": [
+        "transactions",
+        "country_level",
+        "events"
+      ],
+      "template": "Do the leading digits in {dataset} obey Benford's law? Test it, visualise the deviation, and explain what conformity — or non-conformity — actually implies here.\n"
+    },
+    {
+      "id": "network-asymmetry",
+      "family": "Networks",
+      "requires_any": [
+        "network"
+      ],
+      "template": "Study the imbalances in {dataset}: which flows or relationships are strongly one-directional, and what does the pattern of asymmetry reveal?\n"
+    },
+    {
+      "id": "text-complexity",
+      "family": "Text",
+      "requires_any": [
+        "text"
+      ],
+      "template": "Measure how the language in {dataset} has changed: sentence length, readability, vocabulary richness. Is it getting simpler — and when did the style shift most sharply?\n"
+    },
+    {
+      "id": "distinctive-words",
+      "family": "Text",
+      "requires_any": [
+        "text"
+      ],
+      "template": "Split {dataset} into eras or groups and find each one's signature vocabulary (tf-idf or log-odds). What do the distinctive words say about how concerns have changed?\n"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "one-pipe",
+      "name": "One pipe to rule them all",
+      "difficulty": "mild",
+      "description": "Express the core data transformation as a single unbroken pipe chain, from raw data to plot-ready table.\n"
+    },
+    {
+      "id": "self-contained-chart",
+      "name": "The chart stands alone",
+      "difficulty": "mild",
+      "description": "Produce one chart so thoroughly annotated (title, subtitle, direct labels, source note) that it needs no surrounding text at all.\n"
+    },
+    {
+      "id": "colorblind-safe",
+      "name": "Colour with care",
+      "difficulty": "mild",
+      "description": "Use only a colourblind-safe palette (viridis or Okabe-Ito) and verify the result with a simulator before calling it done.\n"
+    },
+    {
+      "id": "hundred-lines",
+      "name": "100 lines, max",
+      "difficulty": "mild",
+      "description": "The entire analysis — import to final figure — in at most 100 lines of R, comments included.\n"
+    },
+    {
+      "id": "small-multiples",
+      "name": "Small multiples, no legends",
+      "difficulty": "mild",
+      "description": "Every comparison must be a faceted small-multiples chart with direct labelling — legends are banned.\n"
+    },
+    {
+      "id": "no-loops",
+      "name": "No loops",
+      "difficulty": "mild",
+      "description": "No for or while loops anywhere — vectorised operations and purrr/apply functions only.\n"
+    },
+    {
+      "id": "table-centrepiece",
+      "name": "The table is the chart",
+      "difficulty": "mild",
+      "description": "Make a beautifully formatted table (gt or reactable) the centrepiece deliverable instead of a plot.\n"
+    },
+    {
+      "id": "five-minute-story",
+      "name": "Tell it in five slides",
+      "difficulty": "mild",
+      "description": "Condense the whole project into five presentation slides (Quarto revealjs) a non-technical audience could follow.\n"
+    },
+    {
+      "id": "log-scale-defence",
+      "name": "Defend your axes",
+      "difficulty": "mild",
+      "description": "Somewhere a log scale, index (=100) rebasing, or per-capita adjustment changes the story. Show the naive version and the adjusted one, and argue for your choice.\n"
+    },
+    {
+      "id": "annotate-history",
+      "name": "Annotate the timeline",
+      "difficulty": "mild",
+      "description": "Overlay the real-world events that explain the shape of your data — at least five dated annotations, each earning its place.\n"
+    },
+    {
+      "id": "one-hue",
+      "name": "Monochrome",
+      "difficulty": "mild",
+      "description": "One hue only. Encode every distinction through lightness, size, shape or position — never a second colour.\n"
+    },
+    {
+      "id": "readme-first",
+      "name": "Register your bets",
+      "difficulty": "mild",
+      "description": "Before touching the data, write down three predictions about what you will find. Publish them unedited next to what you actually found.\n"
+    },
+    {
+      "id": "base-r-only",
+      "name": "No tidyverse",
+      "difficulty": "medium",
+      "description": "Do the whole analysis and all plots in base R — no dplyr, no ggplot2. Rediscover aggregate(), tapply() and friends.\n"
+    },
+    {
+      "id": "interactive",
+      "name": "Make it interactive",
+      "difficulty": "medium",
+      "description": "Deliver the result as an interactive graphic (plotly, ggiraph or leaflet) with tooltips that genuinely add information.\n"
+    },
+    {
+      "id": "quarto-dashboard",
+      "name": "Ship a dashboard",
+      "difficulty": "medium",
+      "description": "Present the findings as a Quarto dashboard with at least three coordinated panels.\n"
+    },
+    {
+      "id": "second-dataset",
+      "name": "Bring a friend",
+      "difficulty": "medium",
+      "description": "Join in a second dataset from this generator's own index and make the combination essential to the answer.\n"
+    },
+    {
+      "id": "sensitivity-analysis",
+      "name": "Stress-test it",
+      "difficulty": "medium",
+      "description": "Identify the three most consequential analytical choices you made and show how the headline result moves when each is varied.\n"
+    },
+    {
+      "id": "art-mode",
+      "name": "Data art",
+      "difficulty": "medium",
+      "description": "Alongside the serious analysis, render the same data as a purely aesthetic generative-art piece.\n"
+    },
+    {
+      "id": "shiny-app",
+      "name": "Make it an app",
+      "difficulty": "medium",
+      "description": "Wrap the analysis in a small Shiny app with at least one input that meaningfully changes what the user sees.\n"
+    },
+    {
+      "id": "animate-it",
+      "name": "Set it in motion",
+      "difficulty": "medium",
+      "description": "The key chart must be animated (gganimate) — and the motion must encode information, not decoration.\n"
+    },
+    {
+      "id": "api-fresh",
+      "name": "No stale data",
+      "difficulty": "medium",
+      "description": "The script must pull the data live from the source (API or URL) on every run — no downloaded files committed to the project.\n"
+    },
+    {
+      "id": "data-quality-gate",
+      "name": "Guard the gate",
+      "difficulty": "medium",
+      "description": "Add an explicit validation stage (pointblank or hand-rolled assertions) that checks at least eight expectations about the raw data before any analysis runs.\n"
+    },
+    {
+      "id": "lie-detector",
+      "name": "Lie, then confess",
+      "difficulty": "medium",
+      "description": "Build the most misleading chart you can from this data without faking a single number. Then show the honest version and annotate every trick.\n"
+    },
+    {
+      "id": "duckdb-sql",
+      "name": "Speak SQL",
+      "difficulty": "medium",
+      "description": "All heavy lifting happens in DuckDB via SQL queries from R — dplyr may only touch the final, aggregated result.\n"
+    },
+    {
+      "id": "data-table",
+      "name": "Speak data.table",
+      "difficulty": "spicy",
+      "description": "Use data.table for every transformation instead of your usual tools, idiomatically (no dplyr translations).\n"
+    },
+    {
+      "id": "package-it",
+      "name": "Package it",
+      "difficulty": "spicy",
+      "description": "Wrap the core logic as functions in a minimal R package with roxygen docs and at least three testthat tests.\n"
+    },
+    {
+      "id": "publication-style",
+      "name": "Newsroom style",
+      "difficulty": "spicy",
+      "description": "Style the final graphic like The Economist, FT or BBC — typography, grid, annotations and all — using a theme you build yourself.\n"
+    },
+    {
+      "id": "targets-pipeline",
+      "name": "Reproducible pipeline",
+      "difficulty": "spicy",
+      "description": "Orchestrate the analysis with the {targets} package so a single tar_make() rebuilds everything from scratch.\n"
+    },
+    {
+      "id": "webr-publish",
+      "name": "Publish it in webR",
+      "difficulty": "spicy",
+      "description": "Publish the analysis so it runs in the reader's browser via webR or shinylive — just like this generator does.\n"
+    },
+    {
+      "id": "model-bake-off",
+      "name": "Model bake-off",
+      "difficulty": "spicy",
+      "description": "Fit at least three different model classes with tidymodels, compare them with honest resampled metrics, and declare a winner you can defend.\n"
+    },
+    {
+      "id": "go-bayesian",
+      "name": "Go Bayesian",
+      "difficulty": "spicy",
+      "description": "Estimate the headline quantity with a Bayesian model (brms or rstanarm), show the full posterior, and explain your priors out loud.\n"
+    },
+    {
+      "id": "memory-diet",
+      "name": "Memory diet",
+      "difficulty": "spicy",
+      "description": "Pretend the data is 100x bigger: process it in chunks or via arrow/duckdb streaming, never holding the full raw dataset in RAM.\n"
+    },
+    {
+      "id": "one-command-repro",
+      "name": "One-command reproduction",
+      "difficulty": "spicy",
+      "description": "A stranger must be able to clone the repo and rebuild every result with a single command — renv lockfile, pinned versions, no manual steps.\n"
+    },
+    {
+      "id": "ci-render",
+      "name": "Robot in the loop",
+      "difficulty": "spicy",
+      "description": "A GitHub Action must re-run the analysis and re-render the report on every push, failing loudly if anything breaks.\n"
+    },
+    {
+      "id": "stone-age-r",
+      "name": "Stone-age R",
+      "difficulty": "extra-spicy",
+      "description": "Zero packages. Not one library() call — download, wrangling, statistics and graphics in what ships with base R alone.\n"
+    },
+    {
+      "id": "live-dashboard",
+      "name": "Keep it alive",
+      "difficulty": "extra-spicy",
+      "description": "Deploy a dashboard that refreshes itself on a schedule (GitHub Actions cron re-render to Pages counts) and is still up a month from now.\n"
+    },
+    {
+      "id": "bilingual-pipeline",
+      "name": "Bilingual pipeline",
+      "difficulty": "extra-spicy",
+      "description": "Rebuild the core pipeline a second time in another language (Python, SQL or Julia) and prove the two implementations agree to the last digit.\n"
+    },
+    {
+      "id": "tweet-sized",
+      "name": "Tweet-sized analysis",
+      "difficulty": "extra-spicy",
+      "description": "After the full analysis, compress the core computation into 280 characters of R that still produces the headline number and a plot.\n"
+    },
+    {
+      "id": "teach-it",
+      "name": "Teach it back",
+      "difficulty": "extra-spicy",
+      "description": "Turn the project into a self-guided tutorial (learnr or a literate Quarto walkthrough) that a beginner could follow to reproduce every step — exercises and wrong-turn warnings included.\n"
+    },
+    {
+      "id": "full-simulation",
+      "name": "Build the twin",
+      "difficulty": "extra-spicy",
+      "description": "Write a generative simulation of the process behind this data, calibrate it until simulated data is hard to tell from the real thing, then use it to answer a what-if the data alone cannot.\n"
+    }
+  ]
+}
