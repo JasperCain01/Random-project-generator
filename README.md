@@ -103,3 +103,18 @@ Pass `seen = <character vector of combo_ids>` to exclude previous draws, or
   ```sh
   cd tests && npm install && npx playwright install chromium && npm test
   ```
+
+## Licence
+
+The generator's code and its curated content (the dataset, question and
+challenge lists in `data/`, and the site in `docs/`) are released under the
+[MIT licence](LICENSE).
+
+The datasets the generator suggests are not part of this repository and are
+not covered by the MIT licence. Each is published by a third party under its
+own terms, which are recorded in the `license` field of `data/datasets.yaml`
+and shown alongside each suggestion. Those terms vary: most are CC0, CC BY 4.0
+or public domain, but some require attribution, citation or registration, and
+some restrict commercial use (the Olist dataset, for example, is
+CC BY-NC-SA 4.0). Check a dataset's licence before using it, particularly in
+work you intend to publish or use commercially.
