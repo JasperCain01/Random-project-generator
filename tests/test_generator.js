@@ -1,4 +1,5 @@
 // Unit-test the R generator inside webR (Node), no network needed.
+// What each check protects is documented in tests/TESTS.md.
 const { WebR } = require("webr");
 const fs = require("fs");
 
@@ -13,13 +14,19 @@ const ROOT = require("path").resolve(__dirname, "..");
   await webR.evalRVoid(fs.readFileSync(`${ROOT}/docs/generator.R`, "utf8"));
   await webR.evalRVoid("registry <- rpg_load_registry('/registry.R')");
 
-  // Registry loads with expected counts.
-  const counts = await webR.evalRString(
-    "paste(length(registry$datasets), length(registry$questions), length(registry$challenges))"
-  );
-  console.log("datasets/questions/challenges:", counts);
+  // 1. The registry loads and none of its three tables is empty.
+  const counts = (
+    await webR.evalRString(
+      "paste(length(registry$datasets), length(registry$questions), length(registry$challenges))"
+    )
+  )
+    .split(" ")
+    .map(Number);
+  if (counts.some((n) => !(n > 0))) throw new Error(`empty registry table: ${counts}`);
+  console.log("registry loads: datasets/questions/challenges =", counts.join("/"));
 
-  // Total combos matches an independent JS computation over the JSON registry.
+  // 2. Total combos match an independent JS computation over the JSON registry,
+  //    and the per-difficulty counts partition that total.
   const reg = JSON.parse(fs.readFileSync(`${ROOT}/docs/registry.json`, "utf8"));
   const matches = (q, ds) => {
     const tags = new Set(ds.shape_tags);
@@ -31,61 +38,34 @@ const ROOT = require("path").resolve(__dirname, "..");
   for (const ds of reg.datasets) for (const q of reg.questions) if (matches(q, ds)) pairs++;
   const expectedTotal = String(pairs * reg.challenges.length);
   const total = await webR.evalRString("as.character(rpg_n_combos(registry))");
-  console.log(`total combos (R vs JS): ${total} vs ${expectedTotal}`);
-  if (total !== expectedTotal) throw new Error("combo count mismatch between R and JS");
-
-  // Difficulty subsets partition the total.
+  if (total !== expectedTotal) throw new Error(`combo count mismatch: R ${total} vs JS ${expectedTotal}`);
   const parts = await webR.evalRString(`
     lv <- c('mild','medium','spicy','extra-spicy')
     per <- sapply(lv, function(d) rpg_n_combos(registry, difficulties = d))
     paste(sum(per) == rpg_n_combos(registry), paste(per, collapse=' '))
   `);
-  console.log("per-difficulty combos [sums-to-total mild medium spicy extra]:", parts);
   if (!parts.startsWith("TRUE")) throw new Error("difficulty counts do not partition total");
+  console.log(`combo count: R and JS agree on ${total}; per difficulty ${parts.slice(5)}`);
 
-  // Difficulty filter is honoured across 30 draws.
-  await webR.evalRVoid(`
-    seen <- character(0)
-    for (i in 1:30) {
-      s <- rpg_suggest(registry, seen = seen, difficulties = c('mild', 'extra-spicy'))
-      stopifnot(s$status == 'ok')
-      stopifnot(s$challenge$difficulty %in% c('mild', 'extra-spicy'))
-      seen <- c(seen, s$combo_id)
-    }
-  `);
-  console.log("30 draws with difficulty filter: all challenges mild or extra-spicy");
-
-  // Unknown difficulty returns status 'empty'.
-  await webR.evalRVoid(`
-    stopifnot(rpg_suggest(registry, difficulties = 'nuclear')$status == 'empty')
-  `);
-  console.log("unknown difficulty correctly returns status 'empty'");
-
-  // A themed draw returns valid JSON with a dataset in that theme.
-  const out = JSON.parse(
-    await webR.evalRString("rpg_suggest_json(registry, c('health'), character(0))")
-  );
-  if (out.status !== "ok") throw new Error("draw failed: " + JSON.stringify(out));
-  if (!out.dataset.themes.includes("health")) throw new Error("theme filter violated");
-  if (out.question.text.includes("{dataset}")) throw new Error("placeholder not filled");
-  console.log("themed draw ok:", out.dataset.id, "/", out.question.id, "/", out.challenge.id);
-
-  // Question archetype must actually match the dataset's tags (spot check via combo across 50 draws).
+  // 3. Fifty sequential draws with a theme filter AND a difficulty filter: every
+  //    draw honours both, its question genuinely fits its dataset, and nothing repeats.
   await webR.evalRVoid(`
     seen <- character(0)
     for (i in 1:50) {
-      s <- rpg_suggest(registry, themes = c('finance', 'politics'), seen = seen)
+      s <- rpg_suggest(registry, themes = c('finance', 'politics'), seen = seen,
+                       difficulties = c('mild', 'extra-spicy'))
       stopifnot(s$status == 'ok')
       stopifnot(any(unlist(s$dataset$themes) %in% c('finance', 'politics')))
+      stopifnot(s$challenge$difficulty %in% c('mild', 'extra-spicy'))
       q <- Filter(function(q) q$id == s$question$id, registry$questions)[[1]]
       stopifnot(rpg_question_matches(q, s$dataset))
       stopifnot(!(s$combo_id %in% seen))
       seen <- c(seen, s$combo_id)
     }
   `);
-  console.log("50 sequential draws: theme filter, tag matching, no-repeat all hold");
+  console.log("50 draws: theme and difficulty filters, tag matching, no-repeat all hold");
 
-  // Exhaustion: a narrow selection eventually reports 'exhausted', never repeats.
+  // 4. A narrow selection runs out after exactly its combo count, never repeating.
   const exhaust = await webR.evalRString(`
     seen <- character(0); n <- 0
     repeat {
@@ -95,18 +75,37 @@ const ROOT = require("path").resolve(__dirname, "..");
     }
     paste(s$status, n, rpg_n_combos(registry, 'sport'))
   `);
-  console.log("exhaustion test [status drawn expected]:", exhaust);
   const [st, drawn, expected] = exhaust.split(" ");
-  if (st !== "exhausted" || drawn !== expected) throw new Error("exhaustion mismatch");
+  if (st !== "exhausted" || drawn !== expected) throw new Error(`exhaustion mismatch: ${exhaust}`);
+  console.log(`exhaustion: 'exhausted' after exactly ${drawn} draws`);
 
-  // Empty theme intersection reports 'empty'.
-  const empty = JSON.parse(
+  // 5. An unknown theme or an unknown difficulty reports 'empty' rather than erroring.
+  const emptyTheme = JSON.parse(
     await webR.evalRString("rpg_suggest_json(registry, c('no-such-theme'), character(0))")
   );
-  if (empty.status !== "empty") throw new Error("expected empty status");
-  console.log("unknown theme correctly returns status 'empty'");
+  const emptyDifficulty = await webR.evalRString(
+    "rpg_suggest(registry, difficulties = 'nuclear')$status"
+  );
+  if (emptyTheme.status !== "empty" || emptyDifficulty !== "empty")
+    throw new Error(`expected 'empty', got ${emptyTheme.status} / ${emptyDifficulty}`);
+  console.log("unknown theme and unknown difficulty both report 'empty'");
+
+  // 6. The JSON bridge the page parses: a themed draw is valid JSON, honours the
+  //    theme exactly (not by substring), and has its {dataset} placeholder filled.
+  const out = JSON.parse(
+    await webR.evalRString("rpg_suggest_json(registry, c('health'), character(0))")
+  );
+  if (out.status !== "ok") throw new Error("draw failed: " + JSON.stringify(out));
+  // rpg_to_json writes a one-element vector as a scalar, so normalise to an array
+  // before testing membership: String.prototype.includes would match "healthcare".
+  if (![].concat(out.dataset.themes).includes("health")) throw new Error("theme filter violated");
+  if (out.question.text.includes("{dataset}")) throw new Error("placeholder not filled");
+  console.log("themed draw ok:", out.dataset.id, "/", out.question.id, "/", out.challenge.id);
 
   await webR.close();
   console.log("ALL GENERATOR TESTS PASSED");
   process.exit(0);
-})().catch((e) => { console.error("TEST FAILED:", e); process.exit(1); });
+})().catch((e) => {
+  console.error("TEST FAILED:", e);
+  process.exit(1);
+});
