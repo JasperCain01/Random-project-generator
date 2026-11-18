@@ -63,43 +63,23 @@ const server = http.createServer((req, res) => {
   );
   console.log("webR ready. Status:", await page.textContent("#status"));
 
-  // Select a theme and a difficulty, then spin.
-  await page.click('#theme-chips label:has-text("health")');
-  await page.click('#difficulty-chips label:has-text("Extra spicy")');
-  console.log("Combo count:", await page.textContent("#combo-count"));
+  // Smoke test only: the page boots webR, and one spin produces a complete
+  // suggestion. The filter and no-repeat logic is covered, faster and more
+  // thoroughly, by test_generator.js.
   await page.click("#spin");
   await page.waitForSelector("#result:not([hidden])", { timeout: 60000 });
-  console.log("--- Suggestion 1 ---");
-  console.log("Dataset:   ", await page.textContent("#ds-name"));
-  console.log("Question:  ", (await page.textContent("#q-text")).trim());
-  console.log("Challenge: ", await page.textContent("#ch-name"));
-  console.log("Difficulty:", await page.textContent("#ch-difficulty"));
-  if (!(await page.textContent("#ch-difficulty")).includes("Extra spicy"))
-    throw new Error("difficulty filter not honoured in UI");
-  await page.screenshot({ path: __dirname + "/site.png", fullPage: true });
-
-  // The drawn dataset must genuinely carry the selected theme.
-  const registry = JSON.parse(fs.readFileSync(path.join(DOCS, "registry.json"), "utf8"));
-  const themesOf = (name) => registry.datasets.find((d) => d.name === name).themes;
-  const assertHealth = async () => {
-    const name = await page.textContent("#ds-name");
-    if (!themesOf(name).includes("health"))
-      throw new Error(`theme filter violated in UI: ${name} is not health-themed`);
+  const shown = {
+    dataset: (await page.textContent("#ds-name")).trim(),
+    question: (await page.textContent("#q-text")).trim(),
+    challenge: (await page.textContent("#ch-name")).trim(),
+    difficulty: (await page.textContent("#ch-difficulty")).trim(),
   };
-  await assertHealth();
-
-  // Spin twice more to confirm no-repeat history works.
-  const combos = new Set([await page.textContent("#ds-name") + "|" + await page.textContent("#q-text") + "|" + await page.textContent("#ch-name")]);
-  for (let i = 2; i <= 3; i++) {
-    await page.click("#spin");
-    await page.waitForFunction(() => !document.getElementById("spin").disabled, null, { timeout: 60000 });
-    const key = await page.textContent("#ds-name") + "|" + await page.textContent("#q-text") + "|" + await page.textContent("#ch-name");
-    console.log(`--- Suggestion ${i} ---`, (await page.textContent("#ds-name")), "/", await page.textContent("#ch-name"));
-    combos.add(key);
-    await assertHealth();
+  console.log("Suggestion:", shown);
+  for (const [field, text] of Object.entries(shown)) {
+    if (!text) throw new Error(`suggestion rendered with an empty ${field}`);
   }
-  console.log("History line:", (await page.textContent("#history-line")).replace(/\s+/g, " ").trim());
-  console.log("Distinct combos out of 3 spins:", combos.size);
+  if (shown.question.includes("{dataset}")) throw new Error("placeholder not filled in the UI");
+  await page.screenshot({ path: __dirname + "/site.png", fullPage: true });
 
   await browser.close();
   server.close();
