@@ -102,6 +102,42 @@ const ROOT = require("path").resolve(__dirname, "..");
   if (out.question.text.includes("{dataset}")) throw new Error("placeholder not filled");
   console.log("themed draw ok:", out.dataset.id, "/", out.question.id, "/", out.challenge.id);
 
+  // 7. rpg_to_json escapes text that would otherwise break JSON.parse in the page.
+  const tricky = 'He said "hi" \\ then\nleft\ttabbed\r';
+  const escaped = JSON.parse(
+    await webR.evalRString(`rpg_to_json(list(text = ${JSON.stringify(tricky)},
+      one = 'solo', many = c('a', 'b'), none = character(0),
+      flag = TRUE, n = 42, nothing = NULL))`)
+  );
+  const expectedEscaped = {
+    text: tricky, one: "solo", many: ["a", "b"], none: [], flag: true, n: 42, nothing: null,
+  };
+  if (JSON.stringify(escaped) !== JSON.stringify(expectedEscaped))
+    throw new Error(`rpg_to_json round-trip mismatch: ${JSON.stringify(escaped)}`);
+  console.log("rpg_to_json escapes quotes, backslashes, newlines, tabs and carriage returns");
+
+  // 8. Every dataset, question and challenge in the shipped registry serialises to
+  //    JSON the page can parse, so no registry text can break a draw that picks it.
+  const bad = JSON.parse(
+    await webR.evalRString(`
+      entries <- c(registry$datasets, registry$questions, registry$challenges)
+      rpg_to_json(Filter(Negate(is.null), lapply(entries, function(e) {
+        if (is.null(e$id)) return(NULL)
+        list(id = e$id, json = rpg_to_json(e))
+      })))
+    `)
+  );
+  const unparsable = [].concat(bad).filter((e) => {
+    try {
+      JSON.parse(e.json);
+      return false;
+    } catch {
+      return true;
+    }
+  });
+  if (unparsable.length) throw new Error(`unparsable registry entries: ${unparsable.map((e) => e.id)}`);
+  console.log(`all ${[].concat(bad).length} registry entries serialise to valid JSON`);
+
   await webR.close();
   console.log("ALL GENERATOR TESTS PASSED");
   process.exit(0);
